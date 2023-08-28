@@ -1,0 +1,17 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    static-path-pattern: /static/**
+      
+  datasource:
+    url: jdbc:mysql://localhost:3306/devroutinergram
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    
+server:
+  servlet:
+    session:
+      timeout: 10000000
