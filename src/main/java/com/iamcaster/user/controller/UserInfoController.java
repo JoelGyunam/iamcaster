@@ -18,6 +18,12 @@ public class UserInfoController {
 			return "joiner/login/login";
 	}
 	
+	
+	@GetMapping("/main/login/forgotPassword")
+	public String forgotPWView() {
+		return "joiner/login/forgotpw";
+	}
+	
 	@GetMapping("/registration")
 		public String registrationView() {
 			return "joiner/reg/reg";

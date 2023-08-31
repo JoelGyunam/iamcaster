@@ -11,6 +11,7 @@ import com.iamcaster.user.domain.UserInfo;
 public interface UserInfoRepository {
 
 	public List<UserInfo> getUserInfoByEmail(@Param("email") String email);
-	
+	public List<UserInfo> getUserInfoByUID (@Param("UID") int UID);
 	public int insertUserInfo(UserInfo userInfo);
+	public int updatePW(UserInfo userInfo);
 }

@@ -1,11 +1,14 @@
 package com.iamcaster.user.service;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iamcaster.common.Encrypt;
+import com.iamcaster.emailSender.dto.EmailSendDto;
+import com.iamcaster.emailSender.service.EmailSendService;
 import com.iamcaster.user.domain.UserInfo;
 import com.iamcaster.user.repository.UserInfoRepository;
 
@@ -14,6 +17,8 @@ public class UserInfoService {
 
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+	@Autowired
+	private EmailSendService emailSendService;
 	
 	public boolean ifRegisteredEmail(String email) {
 		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail(email);
@@ -64,5 +69,57 @@ public class UserInfoService {
 		} else {
 			return null;
 		}
+	}
+	
+	public Integer sendTempPW(String email) {
+		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail(email);
+		if(userList.size()==0) {
+			return null;
+		}
+		int UID = userList.get(0).getUID();
+		
+		Random random = new Random();
+		String newPassword = "";
+		
+		for(int i = 0; i < 6; i++) {
+			int digitOrLetter = random.nextInt(2);
+			if(digitOrLetter==0) {
+				int digit = random.nextInt(1, 10);
+				newPassword += Integer.toString(digit);
+			} else {
+				char letter = (char)random.nextInt(65, 90);
+				newPassword += letter;
+			}
+		}
+		
+		String type = "tempPassword";
+    	//String path = "/static/thymeleaf-templates/"+type+".html";
+    	EmailSendDto emailSendDto = new EmailSendDto();
+    	emailSendDto.setType(type);
+    	emailSendDto.setSubject("[나도캐스터] 임시 비밀번호가 발급됬어요.");
+    	emailSendDto.setContext(emailSendService.setContext(type,newPassword));
+    	emailSendDto.setCode(newPassword);
+    	emailSendDto.setAddressTo(email);
+    	emailSendDto.setAddressFrom("joeldev@naver.com");
+    	emailSendService.sendEmail(emailSendDto,type);
+		
+		int passwordChangeResult = changePW(UID,newPassword);
+		return passwordChangeResult;
+		
+	}
+	
+	public Integer changePW(int UID, String newPassword) {
+		List<UserInfo> userList = userInfoRepository.getUserInfoByUID(UID);
+		if(userList.size()==0) {
+			return null;
+		}
+		String newSalt = Encrypt.getSalt();
+		String newEncPassword = Encrypt.getEncrypt(newPassword, newSalt);
+		UserInfo targetUser = new UserInfo();
+		targetUser.setUID(UID);
+		targetUser.setSalt(newSalt);
+		targetUser.setPassword(newEncPassword);
+		
+		return userInfoRepository.updatePW(targetUser);
 	}
 }

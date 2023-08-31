@@ -70,4 +70,17 @@ public class UserInfoRestController {
 		}
 		return resultMap;
 	}
+	
+	@PostMapping("/login/tempPW")
+	public Map<String,String> tempPW(@RequestParam("email") String email){
+		Map<String,String> resultMap = new HashMap<>();
+		int result = userInfoService.sendTempPW(email);
+		if(result==1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+		
+	}
 }

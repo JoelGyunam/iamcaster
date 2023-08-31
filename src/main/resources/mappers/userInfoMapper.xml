@@ -20,6 +20,22 @@
  		WHERE `email` = #{email}
  	
  	</select>
+ 	
+ 	<select id="getUserInfoByUID" parameterType="int" resultType="com.iamcaster.user.domain.UserInfo">
+ 	
+ 		SELECT
+ 			UID
+			,email
+			,password
+			,salt
+			,NickID
+			,RGID
+			,createdAt
+			,updatedAt
+ 		FROM `userInfo`
+ 		WHERE `UID` = #{UID}
+ 	
+ 	</select>
  
  	<insert id="insertUserInfo" parameterType="com.iamcaster.user.domain.UserInfo" useGeneratedKeys="true" keyProperty="UID">
  	
@@ -41,5 +57,13 @@
 			)
  	
  	</insert>
+ 	
+ 	<update id="updatePW" parameterType="com.iamcaster.user.domain.UserInfo">
+ 	
+ 		UPDATE `userInfo`
+ 		SET `salt` = #{salt}, `password` = #{password}
+ 		WHERE UID = #{UID}
+ 	
+ 	</update>
  
  </mapper>
