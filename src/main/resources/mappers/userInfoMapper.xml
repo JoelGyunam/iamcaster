@@ -21,7 +21,7 @@
  	
  	</select>
  
- 	<insert id="insertUserInfo" parameterType="com.iamcaster.user.domain.UserInfo">
+ 	<insert id="insertUserInfo" parameterType="com.iamcaster.user.domain.UserInfo" useGeneratedKeys="true" keyProperty="UID">
  	
  		INSERT INTO `userInfo`
  			(

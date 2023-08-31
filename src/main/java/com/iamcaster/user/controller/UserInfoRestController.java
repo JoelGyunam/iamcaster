@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iamcaster.user.domain.UserInfo;
 import com.iamcaster.user.service.UserInfoService;
+import com.iamcaster.user.service.UserNicknameService;
 
 @RequestMapping("/rest")
 @RestController
@@ -21,6 +22,8 @@ public class UserInfoRestController {
 
 	@Autowired
 	private UserInfoService userInfoService;
+	@Autowired
+	private UserNicknameService userNicknameService;
 	
 	@GetMapping("/reg/emailverify/ifDuplicated")
 	public Map<String,Boolean> ifDuplicated(@RequestParam("email") String email){
@@ -39,9 +42,12 @@ public class UserInfoRestController {
 			,@RequestParam("RGID") int RGID
 			){
 		Map<String,String> resultMap = new HashMap<>();
-		int result = userInfoService.registration(email, password, NickID, RGID);
-		if(result==1) {
+		UserInfo userInfo = new UserInfo();
+		userInfo = userInfoService.registration(email, password, NickID, RGID);
+		if(userInfo != null) {
 			resultMap.put("result", "success");
+			int UID = userInfo.getUID();
+			userNicknameService.setUIDforNickname(UID, NickID);
 		} else {
 			resultMap.put("result", "fail");
 		}

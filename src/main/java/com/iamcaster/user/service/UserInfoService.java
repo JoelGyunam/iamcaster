@@ -22,7 +22,7 @@ public class UserInfoService {
 		} else return true;
 	}
 	
-	public int registration(String email, String password, int NickID, int RGID) {
+	public UserInfo registration(String email, String password, int NickID, int RGID) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setEmail(email);
 		userInfo.setNickID(NickID);
@@ -33,7 +33,11 @@ public class UserInfoService {
 		userInfo.setSalt(salt);
 		userInfo.setPassword(encPassword);
 
-		return userInfoRepository.insertUserInfo(userInfo);
+		int result = userInfoRepository.insertUserInfo(userInfo);
+		if(result == 1) {
+			return userInfo;
+		} else
+		return null;
 	}
 	
 	public UserInfo login(String email, String password) {

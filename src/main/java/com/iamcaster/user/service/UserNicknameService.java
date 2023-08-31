@@ -33,4 +33,13 @@ public class UserNicknameService {
 	public int deleteNicknameByNickID(int NickID) {
 		return userNicknameRepository.deleteNicknameByNickID(NickID);
 	}
+	
+	public int setUIDforNickname(int UID, int NickID) {
+		
+		UserNickname userNickname = new UserNickname();
+		userNickname.setUID(UID);
+		userNickname.setNickID(NickID);
+		
+		return userNicknameRepository.updateNickname(userNickname);
+	}
 }

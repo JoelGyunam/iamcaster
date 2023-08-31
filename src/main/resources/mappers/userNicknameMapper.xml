@@ -26,4 +26,12 @@
 		WHERE `NickID` = #{NickID};
  	</delete>
  
+  	<update id = "updateNickname" parameterType="com.iamcaster.user.domain.UserNickname">
+ 		UPDATE `usernickname`
+	 		SET 
+	 			`UID` = #{UID}
+	 			,`updatedAt` = now()
+ 			WHERE `NickID` = #{NickID}
+ 	</update>
+ 
  </mapper>
