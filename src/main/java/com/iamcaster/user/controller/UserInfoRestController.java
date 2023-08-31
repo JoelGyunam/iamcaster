@@ -3,6 +3,8 @@ package com.iamcaster.user.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iamcaster.user.domain.UserInfo;
 import com.iamcaster.user.service.UserInfoService;
 
 @RequestMapping("/rest")
@@ -41,6 +44,23 @@ public class UserInfoRestController {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+
+	@PostMapping("/login/submit")
+	public Map<String,String> login(
+			HttpSession session
+			,@RequestParam("email") String email
+			,@RequestParam("password") String password
+			){
+		Map<String,String> resultMap = new HashMap<>();
+		UserInfo userInfo = new UserInfo();
+		userInfo = userInfoService.login(email, password);
+		if(userInfo==null) {
+			resultMap.put("result","fail");
+		} else {
+			resultMap.put("result","success");
 		}
 		return resultMap;
 	}

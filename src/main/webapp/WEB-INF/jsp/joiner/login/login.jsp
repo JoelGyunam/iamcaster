@@ -21,15 +21,15 @@
 		<div>
 			<div class="m-3">
 				<label class="f-content font-weight-bold">이메일 주소</label>
-				<input type="text" class="form-control">
+				<input id="emailInput" type="text" class="form-control">
 			</div>
 			<div class="m-3">
 				<label class="f-content font-weight-bold">비밀번호</label>
-				<input type="text" class="form-control">
+				<input id="passwordInput" type="password" class="form-control">
 			</div>
 			<div class="pt-3">
 				<div class="m-3 d-flex justify-content-center">
-					<button class="btn btn-success col-6 text-white">로그인</button>
+					<button id="loginBtn" class="btn btn-success col-6 text-white">로그인</button>
 				</div>
 				<div class="f-small text-center text-dark">비밀번호를 잊으셨나요?</div>
 			</div>
@@ -44,7 +44,7 @@
 
 <%-- 모달 스크립트 시작 --%>
 		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#loginDenied">
+		<button id="loginFailModal" type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#loginDenied">
 		  Launch demo modal
 		</button>
 		
@@ -73,6 +73,44 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script>
 		$(document).ready(function(){
+			
+			$("#loginBtn").on("click",function(){
+				
+				var emailInput = $("#emailInput").val();
+				var passwordInput = $("#passwordInput").val();
+				
+				if(emailInput==""){
+					alert("이메일 주소를 입력해 주세요.");
+					return;
+				}
+				
+				if(passwordInput==""){
+					alert("비밀번호를 입력해 주세요.");
+					return;
+				}
+				
+				$.ajax({
+					url:"/rest/login/submit"
+					,type:"post"
+					,data:{
+						"email":emailInput
+						,"password":passwordInput
+					}
+					,success:function(data){
+						if(data.result=="success"){
+							alert(data.UID);
+						} else{
+							$("#loginFailModal").click();
+						}
+					}
+					,error:function(){
+						alert("로그인 중 오류가 발생했어요.");
+					}
+				})
+				
+			})
+			
+			
 			$("#regBtn").on("click",function(){
 				location.href="/registration"
 			});
