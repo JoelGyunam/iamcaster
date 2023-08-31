@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.user.repository.UserNicknameRepository">
+ 
+ 	<insert id = "insertNickname" parameterType="com.iamcaster.user.domain.UserNickname" useGeneratedKeys="true" keyProperty="NickID">
+ 		INSERT INTO `usernickname`
+ 			(`nickname`)
+ 		VALUE
+ 			(
+ 			#{nickname}
+ 			)
+ 	</insert>
+ 	
+ 	<select id = "selectByNickname" parameterType="String" resultType="com.iamcaster.user.domain.UserNickname">
+ 		SELECT
+ 			 `NickID`,`nickname`,`UID`,`createdAt`,`updatedAt`
+ 		FROM usernickname
+ 		WHERE nickname = #{nickname}
+ 	</select>
+ 	
+ 	 <delete id="deleteNicknameByNickID" parameterType="int">
+	 	DELETE FROM `usernickname`
+		WHERE `NickID` = #{NickID};
+ 	</delete>
+ 
+ </mapper>

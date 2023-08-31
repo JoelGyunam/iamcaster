@@ -6,10 +6,31 @@ spring:
     static-path-pattern: /static/**
       
   datasource:
-    url: jdbc:mysql://localhost:3306/devroutinergram
+    url: jdbc:mysql://localhost:3306/iamcaster
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
+    
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: joeldev
+    password: gkftndlTek1@
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+            required: true
+            
+  thymeleaf:
+    prefix: classpath:/static/thymeleaf-templates/
+    suffix: .html
+    mode: HTML5
+    cache: false
+    view-names: thymeleaf/*
     
 server:
   servlet:

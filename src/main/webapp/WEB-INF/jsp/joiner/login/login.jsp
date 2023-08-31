@@ -18,7 +18,7 @@
 			<div class="text-center f-title font-weight-bold">나도 캐스터</div>
 		</div>
 		<hr>
-		<div class="mt-5">
+		<div>
 			<div class="m-3">
 				<label class="f-content font-weight-bold">이메일 주소</label>
 				<input type="text" class="form-control">
@@ -38,14 +38,11 @@
 		<div class="m-3">
 			<div class="f-content font-weight-bold">나도캐스터가 처음이신가요?</div>
 			<div class="d-flex justify-content-center mt-4">
-				<button class="btn btn-primary">5초만에 나도캐스터 등록하기</button>
+				<button id="regBtn" class="btn btn-primary">5초만에 나도캐스터 등록하기</button>
 			</div>
 		</div>
 
-
-
-<%-- 모달 스크립트 --%>
-
+<%-- 모달 스크립트 시작 --%>
 		<!-- Button trigger modal -->
 		<button type="button" class="btn btn-primary d-none" data-toggle="modal" data-target="#loginDenied">
 		  Launch demo modal
@@ -65,6 +62,7 @@
 		    </div>
 		  </div>
 		</div>
+<%-- 모달 스크립트 끝--%>
 		
 	</div>
 	
@@ -73,7 +71,13 @@
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+	<script>
+		$(document).ready(function(){
+			$("#regBtn").on("click",function(){
+				location.href="/registration"
+			});
+		});
+	</script>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-package com.iamcaster.userInfo.controller;
+package com.iamcaster.user.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,5 +16,10 @@ public class UserInfoController {
 	@GetMapping("/main/login")
 		public String loginView() {
 			return "joiner/login/login";
+	}
+	
+	@GetMapping("/registration")
+		public String registrationView() {
+			return "joiner/reg/reg";
 	}
 }

@@ -8,6 +8,7 @@
 	font-family: SUITE Variable;
 	background: #ffffff;
 	font-size: 24px;
+	overflow:auto;
 }
 
 .f-title{
@@ -47,5 +48,8 @@ footer{
 		letter-spacing: 3px;
 	}
 	
+	footer{
+	color: #666666;
+}
 }
 

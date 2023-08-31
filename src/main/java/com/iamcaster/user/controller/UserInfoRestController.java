@@ -1,0 +1,47 @@
+package com.iamcaster.user.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.iamcaster.user.service.UserInfoService;
+
+@RequestMapping("/rest")
+@RestController
+public class UserInfoRestController {
+
+	@Autowired
+	private UserInfoService userInfoService;
+	
+	@GetMapping("/reg/emailverify/ifDuplicated")
+	public Map<String,Boolean> ifDuplicated(@RequestParam("email") String email){
+		Boolean result = userInfoService.ifRegisteredEmail(email);
+		Map<String,Boolean> resultMap = new HashMap<>();
+		resultMap.put("ifDuplicated", result);
+		return resultMap;
+	}
+	
+	
+	@PostMapping("/reg/submit")
+	public Map<String,String> registration(
+			@RequestParam("email") String email
+			,@RequestParam("password") String password
+			,@RequestParam("NickID") int NickID
+			,@RequestParam("RGID") int RGID
+			){
+		Map<String,String> resultMap = new HashMap<>();
+		int result = userInfoService.registration(email, password, NickID, RGID);
+		if(result==1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+}

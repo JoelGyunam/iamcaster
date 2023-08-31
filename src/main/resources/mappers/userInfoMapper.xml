@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.user.repository.UserInfoRepository">
+ 
+ 	<select id="getUserInfoByEmail" parameterType="String" resultType="com.iamcaster.user.domain.UserInfo">
+ 	
+ 		SELECT
+ 			UID
+			,email
+			,password
+			,salt
+			,NickID
+			,RGID
+			,createdAt
+			,updatedAt
+ 		FROM `userInfo`
+ 		WHERE `email` = #{email}
+ 	
+ 	</select>
+ 
+ 	<insert id="insertUserInfo" parameterType="com.iamcaster.user.domain.UserInfo">
+ 	
+ 		INSERT INTO `userInfo`
+ 			(
+			email
+			,password
+			,salt
+			,NickID
+			,RGID
+			)
+		VALUE
+			(
+			#{email}
+			,#{password}
+			,#{salt}
+			,#{NickID}
+			,#{RGID}
+			)
+ 	
+ 	</insert>
+ 
+ </mapper>
