@@ -11,6 +11,10 @@
 	overflow:auto;
 }
 
+section{
+	background: #A7A7A7;
+}
+
 .f-title{
 	font-size: 30px;
 	letter-spacing: 6px;

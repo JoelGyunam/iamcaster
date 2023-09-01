@@ -98,7 +98,7 @@
 					}
 					,success:function(data){
 						if(data.result=="success"){
-							alert(data.UID);
+							location.href="/main/predict";
 						} else{
 							$("#loginFailModal").click();
 						}
