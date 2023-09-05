@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.predict.repository.PredictRepository">
+ 
+ 	<select id="selectPredictByUID" resultType="com.iamcaster.predict.domain.UserPredict">
+ 		SELECT
+ 			`UPID`
+			,`predictOrder`
+			,`UID`
+			,`predictRGID`
+			,`weatherType`
+			,`predictedNum1`
+			,`predictedNum2`
+			,`realNum1`
+			,`realNum2`
+			,`result`
+			,`scored`
+			,`createdAt`
+			,`updatedAt`
+		FROM `userpredict`
+		WHERE `UID` = #{UID} AND DATE(`createdAt`) = CURDATE()
+		ORDER BY `predictOrder` ASC;
+ 	</select>
+ 
+ 	<insert id="insertPredict" parameterType="com.iamcaster.predict.domain.UserPredict">
+ 	INSERT INTO `userpredict`
+ 		(
+ 		`predictOrder`
+ 		,`UID`
+ 		,`predictRGID`
+ 		,`weatherType`
+ 		,`predictedNum1`
+ 		,`predictedNum2`
+ 		)
+	VALUE
+		(
+	    #{predictOrder}
+	    ,#{UID}
+	    ,#{predictRGID}
+	    ,#{weatherType}
+	    ,#{predictedNum1}
+	    ,#{predictedNum2}
+    	)
+ 	</insert>
+ 
+ 	<update id="updatePredict" parameterType="com.iamcaster.predict.domain.UserPredict">
+ 	
+ 	UPDATE `userpredict`
+ 	SET
+ 	 `predictedNum1`= #{predictedNum1}
+ 	 ,`predictedNum2`= #{predictedNum2}
+ 	 ,`updatedAt` = now()
+ 	WHERE
+ 	 `UPID` = #{UPID}
+ 	
+ 	</update>
+ 	
+ </mapper>

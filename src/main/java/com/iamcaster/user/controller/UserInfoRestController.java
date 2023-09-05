@@ -40,6 +40,7 @@ public class UserInfoRestController {
 			,@RequestParam("password") String password
 			,@RequestParam("NickID") int NickID
 			,@RequestParam("RGID") int RGID
+			,HttpSession session
 			){
 		Map<String,String> resultMap = new HashMap<>();
 		UserInfo userInfo = new UserInfo();
@@ -48,6 +49,7 @@ public class UserInfoRestController {
 			resultMap.put("result", "success");
 			int UID = userInfo.getUID();
 			userNicknameService.setUIDforNickname(UID, NickID);
+			session.setAttribute("UID", UID);
 		} else {
 			resultMap.put("result", "fail");
 		}
@@ -67,6 +69,7 @@ public class UserInfoRestController {
 			resultMap.put("result","fail");
 		} else {
 			resultMap.put("result","success");
+			session.setAttribute("UID", userInfo.getUID());
 		}
 		return resultMap;
 	}
