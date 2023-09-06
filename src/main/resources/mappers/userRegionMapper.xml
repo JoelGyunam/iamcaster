@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.regional.userregion.repository.UserRegionRepository">
+ 
+ 	<select id="innerJoinSFCRegionAndOBVRegion">
+ 	
+ 		SELECT 
+ 			A.REG_ID AS regSourceID
+ 			, B.STN_ID AS STN_ID
+ 			, A.REG_NAME AS regionName
+ 			, B.LAT AS lat
+ 			, B.LON as lon
+		FROM sfcregion AS A
+		INNER JOIN obvregion AS B
+		ON A.REG_ID = B.FCT_ID;
+ 	
+ 	</select>
+ 
+ 	<select id="countByRegSourceID">
+ 		SELECT COUNT(1)
+ 		FROM `region`
+ 		WHERE `regSourceID` = #{regSourceID}
+ 	</select>
+ 	
+	<insert id="insertUserRegion">
+		INSERT INTO `region`
+			(
+			`regSourceID`
+			,`STN_ID`
+			,`regionName`
+			,`lat`
+			,`lon`
+			)
+		VALUE
+			(
+			#{regSourceID}
+			,#{STN_ID}
+			,#{regionName}
+			,#{lat}
+			,#{lon}
+			)
+	</insert>
+	
+	<select id="selectAllRegion">
+		SELECT
+			`RGID`
+			,`regSourceID`
+			,`STN_ID`
+			,`regionName`
+			,`lat`
+			,`lon`
+			,`createdAt`
+			,`updatedAt`
+		FROM `region`
+		ORDER BY `regionName` ASC
+	</select>
+ 
+ </mapper>

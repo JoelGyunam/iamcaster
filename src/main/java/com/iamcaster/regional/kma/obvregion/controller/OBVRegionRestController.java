@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iamcaster.regional.kma.obvregion.domain.OBVRegion;
 import com.iamcaster.regional.kma.obvregion.service.OBVRegionService;
 
-@RequestMapping("/rest/obvregion")
+@RequestMapping("/rest/region/obv")
 @RestController
 public class OBVRegionRestController {
 
@@ -24,7 +24,7 @@ public class OBVRegionRestController {
 		return obvRegionService.getOBVRegionList();
 	}
 	
-	@GetMapping("/getList/save")
+	@GetMapping("/getList/refresh")
 	public Map<String,Integer> refreshOBVRegionList() {
 		int result =  obvRegionService.refreshOBVRegionList();
 		Map<String,Integer> resultMap = new HashMap<>();
