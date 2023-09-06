@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace = "com.iamcaster.kmaforecast.observation.repository.ObservationRepository">
+ 
+ 	<insert id="insertObservationList" parameterType="java.util.List">
+ 		INSERT INTO `observation`
+ 			(
+ 			`yymmdd_KST`
+ 			,`stn_ID`
+ 			,`ta_AVG`
+ 			,`ta_MAX`
+ 			,`ta_MIN`
+ 			,`rn_DAY`
+ 			)
+ 		VALUES
+ 		<foreach collection="list" item="item" index="index" separator=",">
+ 			(
+            #{item.YYMMDD_KST}
+           ,#{item.STN_ID}
+           ,#{item.TA_AVG}
+           ,#{item.TA_MAX}
+           ,#{item.TA_MIN}
+           ,#{item.RN_DAY}
+ 			)
+ 		</foreach>
+ 	</insert>
+ 
+ 	<insert id="insertObservation" parameterType="com.iamcaster.kmaforecast.observation.domain.Observation">
+ 	 	INSERT INTO `observation`
+ 			(
+ 			`yymmdd_KST`
+ 			,`stn_ID`
+ 			,`ta_AVG`
+ 			,`ta_MAX`
+ 			,`ta_MIN`
+ 			,`rn_DAY`
+ 			)
+ 		VALUE
+ 			(
+			#{YYMMDD_KST}
+			,#{STN_ID}
+			,#{TA_AVG}
+			,#{TA_MAX}
+			,#{TA_MIN}
+			,#{RN_DAY}
+ 			)
+ 	</insert>
+ 
+ </mapper>
