@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.iamcaster.common.WebClientForKMA;
 import com.iamcaster.regional.kma.sfcregion.domain.SFCRegion;
 import com.iamcaster.regional.kma.sfcregion.repository.SFCRegionRepository;
 
@@ -23,6 +24,8 @@ public class SFCRegionService {
 	
 	@Autowired
 	private SFCRegionRepository sfcRegionRepository;
+	@Autowired
+	private WebClientForKMA webClientForKMA;
 
     private final WebClient webClient;
 
@@ -30,7 +33,7 @@ public class SFCRegionService {
         this.webClient = webClientBuilder.baseUrl("https://apihub.kma.go.kr").build();
     }
     
-    public String fetchRegionList() {
+    public String fetchSFCRegionList() {
         Mono<String> mono =  webClient.get()
                 .uri("/api/typ01/url/fct_shrt_reg.php?tmfc=0&disp=1&help=0&authKey=8HXVgof0RqS11YKH9EakVA")
                 .retrieve()
@@ -68,8 +71,10 @@ public class SFCRegionService {
     }
 
    public List<SFCRegion> getList(){
-	   String resultString = fetchRegionList();
-	   List<SFCRegion> parsedResult = parseData(resultString);
+	   String resultString = webClientForKMA.fetchAndToString("/api/typ01/url/fct_shrt_reg.php?tmfc=0&disp=1&help=0&authKey=8HXVgof0RqS11YKH9EakVA");
+//	   List<SFCRegion> parsedResult = webClientForKMA.parseData("sfcRegion",resultString);
+	   Object parsedObject = webClientForKMA.parseData("sfcRegion",resultString);
+	   List<SFCRegion> parsedResult = (List<SFCRegion>) parsedObject;
 	   return parsedResult;
    }
 

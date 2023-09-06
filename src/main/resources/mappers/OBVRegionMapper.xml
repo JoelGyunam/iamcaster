@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.regional.kma.obvregion.repository.OBVRegionRepository">
+ 
+	<select id="countByFCT_ID">
+		SELECT COUNT(1)
+		FROM `obvregion`
+		WHERE `FCT_ID`=#{FCT_ID}
+	</select>
+	
+	<insert id="insertOBVRegion" parameterType="com.iamcaster.regional.kma.obvregion.domain.OBVRegion">
+		INSERT INTO `obvregion`
+			(
+			`STN_ID`
+			,`LON`
+			,`LAT`
+			,`STN_KO`
+			,`FCT_ID`
+			,`LAW_ID`
+			)
+		VALUE
+			(
+			#{STN_ID}
+			,#{LON}
+			,#{LAT}
+			,#{STN_KO}
+			,#{FCT_ID}
+			,#{LAW_ID}
+			)
+	</insert>
+ 
+ </mapper>
