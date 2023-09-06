@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.regional.kma.sfcregion.repository.SFCRegionRepository">
+ 
+ 	<select id="countByReg_ID" parameterType="String" resultType="int">
+ 		SELECT count(1) 
+ 		FROM `sfcregion` WHERE `REG_ID` = #{REG_ID};
+ 	</select>
+ 
+ 	<insert id="insertSFCRegion" parameterType="com.iamcaster.regional.kma.sfcregion.domain.SFCRegion">
+ 		INSERT INTO `sfcregion`
+ 			(
+			`REG_ID`
+			,`TM_ST`
+			,`TM_ED`
+			,`REG_SP`
+			,`REG_NAME`
+ 			)
+ 		VALUE
+ 			(
+ 			#{REG_ID}
+			,#{TM_ST}
+			,#{TM_ED}
+			,#{REG_SP}
+			,#{REG_NAME}
+ 			)
+ 	</insert>
+ 	
+
+ </mapper>

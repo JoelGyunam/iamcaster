@@ -65,7 +65,7 @@
 				</div>
 				<div class="d-flex justify-content-around mx-2">
 					<div class="mx-3">
-						<label class="f-small font-weight-bold">내일 최고 기온 예측</label>
+						<label class="f-small font-weight-bold">내일 최저 기온 예측</label>
 						<div class="input-group">
 							<input id="predictedNum1" type="text" class="predictedNum1 form-control" id="" placeholder="${predict.predictedNum1 }">
 							<div class="input-group-prepend">
@@ -74,7 +74,7 @@
 						</div>
 					</div>
 					<div class="mx-3">
-						<label class="f-small font-weight-bold">내일 최저 기온 예측</label>
+						<label class="f-small font-weight-bold">내일 최고 기온 예측</label>
 						<div class="input-group">
 							<input id="predictedNum2" type="text" class="predictedNum2 form-control" placeholder="${predict.predictedNum2 }">
 							<div class="input-group-prepend">
@@ -280,6 +280,7 @@
 				$(groupRegionClassSelector).text(selectedRegion);
 				$(groupClassSelector).attr("data-region",selectedRGID);
 				$(groupClassSelector).show();
+				console.log(showGroup);
 				if(showGroup >= 5){
 					$("#openNewCard").hide();
 					$("#newCardLimit").show();
@@ -302,14 +303,14 @@
 				if(ifHidden){
 					hiddenCard ++;
 				};
-					showGroup = Math.floor((6 - hiddenCard)/2);
-					console.log("hiddencard " + hiddenCard);
-					console.log("showgroup " +showGroup);
-				if(hiddenCard == 0){
+				showGroup = Math.floor((6 - hiddenCard)/2);
+				console.log("hiddencard " + hiddenCard);
+				console.log("showgroup " +showGroup);
+				if(showGroup >= 5){
 					$("#openNewCard").hide();
 					$("#newCardLimit").show();
-				};
-			})
+				}
+			});
 
 			
 			// 비옴 선택 시 강수량 예측 필드 show, 안옴 선택시 hide

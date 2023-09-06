@@ -53,7 +53,7 @@ public class PredictRestController {
 		if(predictedNum2==null) {
 			predictedNum2 = 0.0;
 		}
-		int result = predictService.editPredict(UID, UPID, predictedNum1, predictedNum1);
+		int result = predictService.editPredict(UID, UPID, predictedNum1, predictedNum2);
 		Map<String,String> resultMap = new HashMap<>();
 		if(result == 1) {
 			resultMap.put("result", "success");
