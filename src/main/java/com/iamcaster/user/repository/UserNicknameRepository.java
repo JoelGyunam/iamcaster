@@ -10,6 +10,7 @@ public interface UserNicknameRepository {
 
 	public int insertNickname(UserNickname userNickname);
 	public List<UserNickname> selectByNickname(@Param("nickname") String nickname);
+	public UserNickname selectOneByNickID(int NickID);
 	public int deleteNicknameByNickID(int NickID);
 	public int updateNickname(UserNickname userNickname);
 	

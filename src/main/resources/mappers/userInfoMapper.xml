@@ -22,7 +22,6 @@
  	</select>
  	
  	<select id="getUserInfoByUID" parameterType="int" resultType="com.iamcaster.user.domain.UserInfo">
- 	
  		SELECT
  			UID
 			,email
@@ -34,7 +33,20 @@
 			,updatedAt
  		FROM `userInfo`
  		WHERE `UID` = #{UID}
+ 	</select>
  	
+ 	<select id="getOneUserInfoByUID" parameterType="int" resultType="com.iamcaster.user.domain.UserInfo">
+ 		SELECT
+ 			UID
+			,email
+			,password
+			,salt
+			,NickID
+			,RGID
+			,createdAt
+			,updatedAt
+ 		FROM `userInfo`
+ 		WHERE `UID` = #{UID}
  	</select>
  
  	<insert id="insertUserInfo" parameterType="com.iamcaster.user.domain.UserInfo" useGeneratedKeys="true" keyProperty="UID">

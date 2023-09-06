@@ -57,5 +57,21 @@
 		FROM `region`
 		ORDER BY `regionName` ASC
 	</select>
+	
+	<select id="selectRegionByRGID">
+		SELECT
+			`RGID`
+			,`regSourceID`
+			,`STN_ID`
+			,`regionName`
+			,`lat`
+			,`lon`
+			,`createdAt`
+			,`updatedAt`
+		FROM `region`
+		WHERE `RGID` = #{RGID}
+	</select>
+	
+	
  
  </mapper>

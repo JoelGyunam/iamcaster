@@ -21,6 +21,13 @@
  		WHERE nickname = #{nickname}
  	</select>
  	
+ 	<select id = "selectOneByNickID" parameterType="int" resultType="com.iamcaster.user.domain.UserNickname">
+ 		SELECT
+ 			 `NickID`,`nickname`,`UID`,`createdAt`,`updatedAt`
+ 		FROM usernickname
+ 		WHERE NickID = #{NickID}
+ 	</select>
+ 	
  	 <delete id="deleteNicknameByNickID" parameterType="int">
 	 	DELETE FROM `usernickname`
 		WHERE `NickID` = #{NickID};

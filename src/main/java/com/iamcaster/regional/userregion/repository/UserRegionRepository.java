@@ -16,4 +16,6 @@ public interface UserRegionRepository {
 	public int insertUserRegion(UserRegion userRegion);
 	
 	public List<UserRegion> selectAllRegion();
+	
+	public UserRegion selectRegionByRGID(int RGID);
 }

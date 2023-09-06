@@ -215,10 +215,9 @@
 			     	<label class="f-content font-weight-bold">어느 지역의 날씨를 예측할까요?</label>
 					<select id="whichRegion" class="form-control">
 						<option selected disabled>지역을 선택해주세요!</option>
-						<option value="1">서울</option>
-						<option value="2">대전</option>
-						<option value="3">대구</option>
-						<option value="4">부산</option>
+						<c:forEach var="region" items="${regionList }">
+						<option value="${region.RGID }">${region.regionName }</option>
+						</c:forEach>
 					</select>
 		      	</div>
 		      </div>

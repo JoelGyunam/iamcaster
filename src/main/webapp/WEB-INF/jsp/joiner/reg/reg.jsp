@@ -58,12 +58,11 @@
 			</div>
 			<div id="regionArea" class="m-3">
 				<label class="f-content font-weight-bold">나의 지역을 선택해 주세요</label>
-				<select class="form-control">
+				<select id="regionSelect" class="form-control">
 					<option selected disabled>지역을 선택해주세요!</option>
-					<option>서울</option>
-					<option>대전</option>
-					<option>대구</option>
-					<option>부산</option>
+					<c:forEach var="region" items="${regionList }">
+						<option value="${region.RGID}">${region.regionName}</option>
+					</c:forEach>
 				</select>
 				<div class="ml-3 f-content text-secondary">가입 후에도 언제든지 수정 가능해요.</div>
 			</div>
@@ -86,11 +85,12 @@
 		  <div class="modal-dialog modal-dialog-centered">
 		    <div class="modal-content">
 		      <div class="modal-body text-center f-content">
+		        <div>환영합니다!</div>
 		        <div><b id="nickModdal">닉네임</b>캐스터 님,</div>
-		        <div>지금 바로 날씨를 알려주세요!</div>
+		        <div>내일의 날씨를 예측해 볼까요?</div>
 		      </div>
 		      <div class="modal-footer d-flex justify-content-center">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
+		        <button id="finalBtn" type="button" class="btn btn-secondary" data-dismiss="modal">확인</button>
 		      </div>
 		    </div>
 		  </div>
@@ -207,6 +207,7 @@
 
 			
 			$("#regSubmitBtn").on("click",function(){
+				var RGID = $("#regionSelect").val();
 				
 				if(!ifCodeVerified){
 					alert("이메일 인증을 해주세요");
@@ -223,6 +224,9 @@
 				if($("#pwInput").val()!=$("#pwDoublecheckInput").val()){
 					alert("비밀번호가 일치하지 않아요");
 					return;
+				}
+				if(RGID==""){
+					alert("지역을 선택해 주세요");
 				}
 				if(NickID == ""){
 					nickname = $("#nicknameInput").val();
@@ -253,7 +257,7 @@
 						"email":emailInput
 						,"password":pwInput
 						,"NickID":NickID
-						,"RGID":'1'
+						,"RGID":RGID
 					}
 					,success:function(data){
 						if(data.result=="success"){
@@ -448,6 +452,9 @@
 				}
 			})
 			
+			$("#finalBtn").on("click",function(){
+				location.href="/main/predict"
+			})
 			
 			function verifyTimer(){
 				timer -= 1;

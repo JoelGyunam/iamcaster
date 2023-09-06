@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iamcaster.predict.dto.UserPredictDelivery;
 import com.iamcaster.predict.service.PredictService;
+import com.iamcaster.regional.userregion.service.UserRegionService;
+import com.iamcaster.user.service.UserInfoService;
 
 @RequestMapping("/main/predict")
 @Controller
@@ -20,11 +22,14 @@ public class PredictController {
 
 	@Autowired
 	private PredictService predictService;
+	@Autowired
+	private UserRegionService userRegionService;
 	
 	@GetMapping()
 	public String predictView(HttpSession session, Model model) {
 		
 		int UID = (int) session.getAttribute("UID");
+		model.addAttribute("regionList",userRegionService.getAllRegionList());
 		
 		List<UserPredictDelivery> predictListMap = predictService.getTodayPredictByUID(UID);
 		

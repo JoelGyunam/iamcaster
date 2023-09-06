@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import com.iamcaster.predict.domain.UserPredict;
 import com.iamcaster.predict.dto.UserPredictDelivery;
 import com.iamcaster.predict.repository.PredictRepository;
-import com.iamcaster.user.domain.UserInfo;
-import com.iamcaster.user.repository.UserInfoRepository;
+import com.iamcaster.regional.userregion.service.UserRegionService;
+import com.iamcaster.user.dto.UserInfoOverral;
+import com.iamcaster.user.service.UserInfoService;
 
 @Service
 public class PredictService {
@@ -18,15 +19,15 @@ public class PredictService {
 	@Autowired
 	private PredictRepository predictRepository;
 	@Autowired
-	private UserInfoRepository userInfoRepository;
+	private UserInfoService userInfoService;
+	@Autowired
+	private UserRegionService userRegionService;
 	
 	public List<UserPredictDelivery> getTodayPredictByUID(int UID){
 
-		List<UserInfo> getUserInfo = userInfoRepository.getUserInfoByUID(UID);
-		int RGID = 0;
-		if(getUserInfo.size()!=0) {
-			RGID = getUserInfo.get(0).getRGID();
-		}
+		UserInfoOverral userSummary = userInfoService.getUserInfo(UID);
+		int RGID = userSummary.getRGID();
+		String regionName = userSummary.getRegionName();
 		
 		List<UserPredictDelivery> predictMapList = new ArrayList<>(); 
 		
@@ -35,6 +36,7 @@ public class PredictService {
 			userPredictForNull.setPredictOrder(i+1);
 			if(i < 2) {
 				userPredictForNull.setPredictRGID(RGID);
+				userPredictForNull.setRegionName(regionName);
 			}
 			if((i+1)%2==0) {
 				userPredictForNull.setWeatherType("rain");
@@ -65,7 +67,7 @@ public class PredictService {
 				userPredictDTO.setScored(predictList.get(j).getScored());
 				userPredictDTO.setCreatedAt(predictList.get(j).getCreatedAt());
 				userPredictDTO.setUpdatedAt(predictList.get(j).getUpdatedAt());
-				userPredictDTO.setRegionName("도시명");
+				userPredictDTO.setRegionName(userRegionService.getRegionByRGID(predictList.get(j).getPredictRGID()).getRegionName());
 				predictMapList.set(userPredictDTO.getPredictOrder()-1,userPredictDTO);
 				}
 			}

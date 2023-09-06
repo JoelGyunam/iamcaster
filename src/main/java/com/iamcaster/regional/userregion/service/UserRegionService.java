@@ -36,5 +36,8 @@ public class UserRegionService {
 	public List<UserRegion> getAllRegionList(){
 		return userRegionRepository.selectAllRegion();
 	}
-	
+
+	public UserRegion getRegionByRGID(int RGID) {
+		return userRegionRepository.selectRegionByRGID(RGID);
+	}
 }

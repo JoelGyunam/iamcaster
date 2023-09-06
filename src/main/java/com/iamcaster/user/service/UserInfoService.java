@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.iamcaster.common.Encrypt;
 import com.iamcaster.emailSender.dto.EmailSendDto;
 import com.iamcaster.emailSender.service.EmailSendService;
+import com.iamcaster.regional.userregion.service.UserRegionService;
 import com.iamcaster.user.domain.UserInfo;
+import com.iamcaster.user.dto.UserInfoOverral;
 import com.iamcaster.user.repository.UserInfoRepository;
 
 @Service
@@ -19,6 +21,30 @@ public class UserInfoService {
 	private UserInfoRepository userInfoRepository;
 	@Autowired
 	private EmailSendService emailSendService;
+	@Autowired
+	private UserRegionService userRegionService;
+	@Autowired
+	private UserNicknameService userNicknameService;
+	
+	public UserInfoOverral getUserInfo(int UID) {
+		UserInfo userInfo = userInfoRepository.getOneUserInfoByUID(UID);
+		UserInfoOverral overral = new UserInfoOverral();
+		if(userInfo == null) {
+			return null;
+		} else {
+			overral.setUID(userInfo.getUID());
+			overral.setEmail(userInfo.getEmail());
+			overral.setPassword(userInfo.getPassword());
+			overral.setSalt(userInfo.getSalt());
+			overral.setNickID(userInfo.getNickID());
+			overral.setNickname(userNicknameService.getByNickID(userInfo.getNickID()).getNickname());
+			overral.setRGID(userInfo.getRGID());
+			overral.setRegionName(userRegionService.getRegionByRGID(userInfo.getRGID()).getRegionName());
+			overral.setCreatedAt(userInfo.getCreatedAt());
+			overral.setUpdatedAt(userInfo.getUpdatedAt());
+		}
+		return overral;
+	}
 	
 	public boolean ifRegisteredEmail(String email) {
 		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail(email);

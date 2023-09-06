@@ -42,4 +42,8 @@ public class UserNicknameService {
 		
 		return userNicknameRepository.updateNickname(userNickname);
 	}
+	
+	public UserNickname getByNickID(int NickID) {
+		return userNicknameRepository.selectOneByNickID(NickID);
+	}
 }
