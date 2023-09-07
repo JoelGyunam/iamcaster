@@ -1,7 +1,9 @@
 package com.iamcaster.predict.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -61,5 +63,10 @@ public class PredictRestController {
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
+	}
+	
+	@GetMapping("/tobescored")
+	public Map<Integer,Set<Integer>> tobescored(){
+		return predictService.toBeScoredList();
 	}
 }

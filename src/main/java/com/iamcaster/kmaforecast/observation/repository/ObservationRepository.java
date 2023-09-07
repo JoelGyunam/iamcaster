@@ -11,4 +11,8 @@ public interface ObservationRepository {
 
 	public int insertObservationList(List<Observation> observation);
 	
+	public int insertObservation(Observation observation);
+	public int countObservationByDateAndSTNID(Observation observation);
+	public int updateObservationByOBVID(Observation observation);
+	public List<Observation> selectListByYYMMDDandSTNID(List<Observation> observation);
 }

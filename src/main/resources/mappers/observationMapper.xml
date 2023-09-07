@@ -5,28 +5,34 @@
  
  <mapper namespace = "com.iamcaster.kmaforecast.observation.repository.ObservationRepository">
  
- 	<insert id="insertObservationList" parameterType="java.util.List">
- 		INSERT INTO `observation`
- 			(
- 			`yymmdd_KST`
- 			,`stn_ID`
- 			,`ta_AVG`
- 			,`ta_MAX`
- 			,`ta_MIN`
- 			,`rn_DAY`
- 			)
- 		VALUES
- 		<foreach collection="list" item="item" index="index" separator=",">
- 			(
+ 	     <insert id="insertObservationList" parameterType="java.util.List">
+         INSERT INTO `observation`
+             (
+             `yymmdd_KST`
+             ,`stn_ID`
+             ,`ta_AVG`
+             ,`ta_MAX`
+             ,`ta_MIN`
+             ,`rn_DAY`
+             )
+         VALUES
+         <foreach collection="list" item="item" index="index" separator=",">
+             (
             #{item.YYMMDD_KST}
            ,#{item.STN_ID}
            ,#{item.TA_AVG}
            ,#{item.TA_MAX}
            ,#{item.TA_MIN}
            ,#{item.RN_DAY}
- 			)
- 		</foreach>
- 	</insert>
+             )
+         </foreach>
+           ON DUPLICATE KEY UPDATE
+          	`TA_AVG` = VALUES(`TA_AVG`),
+			`TA_MAX` = VALUES(`TA_MAX`),
+			`TA_MIN` = VALUES(`TA_MIN`),
+			`RN_DAY` = VALUES(`RN_DAY`),
+			`updatedAt` = NOW(); 
+     </insert>
  
  	<insert id="insertObservation" parameterType="com.iamcaster.kmaforecast.observation.domain.Observation">
  	 	INSERT INTO `observation`
@@ -47,6 +53,42 @@
 			,#{TA_MIN}
 			,#{RN_DAY}
  			)
+ 		
  	</insert>
+ 	
+ 	<select id="countObservationByDateAndSTNID" parameterType="com.iamcaster.kmaforecast.observation.domain.Observation" resultType="int">
+ 		SELECT COUNT(1)
+ 		FROM `observation`
+ 		WHERE `yymmdd_KST` = #{YYMMDD_KST} AND `stn_ID` = #{STN_ID}
+ 	</select>
+ 	
+ 	<update id="updateObservationByOBVID" parameterType="com.iamcaster.kmaforecast.observation.domain.Observation">
+ 		UPDATE `observation`
+ 		SET
+ 			`ta_AVG` = #{TA_AVG}
+ 			,`ta_MAX` = #{TA_MAX}
+ 			,`ta_MIN` = #{TA_MIN}
+ 			,`rn_DAY` = #{RN_DAY}
+ 			,`updatedAt` = #{updatedAt}
+ 		WHERE `OBVID` = #{OBVID}
+ 	</update>
+ 	
+ 	<select id="selectListByYYMMDDandSTNID" parameterType="java.util.List" resultType="com.iamcaster.kmaforecast.observation.domain.Observation">
+ 		SELECT
+			`OBVID`
+			,`YYMMDD_KST`
+			,`STN_ID`
+			,`TA_AVG`
+			,`TA_MAX`
+			,`TA_MIN`
+			,`RN_DAY`
+			,`createdAt`
+			,`updatedAt`
+		FROM `observation`
+		WHERE (`YYMMDD_KST`,`STN_ID`) IN
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+    		(#{item.YYMMDD_KST}, #{item.STN_ID})
+  		</foreach>
+ 	</select>
  
  </mapper>

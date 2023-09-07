@@ -18,4 +18,5 @@ public interface UserRegionRepository {
 	public List<UserRegion> selectAllRegion();
 	
 	public UserRegion selectRegionByRGID(int RGID);
+	public UserRegion selectRegionBySTNID(int STNID);
 }

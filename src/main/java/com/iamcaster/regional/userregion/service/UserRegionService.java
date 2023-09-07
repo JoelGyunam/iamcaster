@@ -40,4 +40,8 @@ public class UserRegionService {
 	public UserRegion getRegionByRGID(int RGID) {
 		return userRegionRepository.selectRegionByRGID(RGID);
 	}
+	
+	public UserRegion getRegionBySTNID(int STNID) {
+		return userRegionRepository.selectRegionBySTNID(STNID);
+	}
 }

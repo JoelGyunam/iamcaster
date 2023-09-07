@@ -25,9 +25,7 @@ public class WebClientForKMA {
 		this.webClient = webClientBuilder.baseUrl("https://apihub.kma.go.kr").build();
 	}
 	
-	public String fetchAndToStringForObservation(int daysAgo,List<Integer> STN_ID) {
-		
-		String date = Dater.getPastDate(daysAgo);
+	public String fetchAndToStringForObservation(int parsedDate,List<Integer> STN_ID) {
 		
 		String stnIDString = "";
 		if(STN_ID.size()==1) {
@@ -37,7 +35,7 @@ public class WebClientForKMA {
 				stnIDString += oneSTN_ID.toString().concat(":");
 			}
 		}
-		String parameter = "/api/typ01/url/kma_sfcdd.php?authKey=8HXVgof0RqS11YKH9EakVA&tm="+date+"&stn="+stnIDString;
+		String parameter = "/api/typ01/url/kma_sfcdd.php?authKey=8HXVgof0RqS11YKH9EakVA&tm="+parsedDate+"&stn="+stnIDString;
 		logger.info(parameter, stnIDString, parameter);;
 		Mono<String> mono = webClient.get()
 				.uri(parameter)

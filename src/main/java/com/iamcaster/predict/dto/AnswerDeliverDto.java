@@ -4,10 +4,9 @@ import java.time.ZonedDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
-
 @Getter
 @Setter
-public class UserPredictDelivery {
+public class AnswerDeliverDto {
 	private int UPID;
 	private int predictOrder;
 	private int UID;
@@ -22,5 +21,8 @@ public class UserPredictDelivery {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime updatedAt;
 	
-	private String RegionName;
+	private int intCreatedDate;
+	private double minTemp;
+	private double maxTemp;
+	private double rainmm;
 }

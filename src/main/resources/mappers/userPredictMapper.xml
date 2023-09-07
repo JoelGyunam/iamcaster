@@ -58,4 +58,56 @@
  	
  	</update>
  	
+ 	 <select id="selectToBeScored" resultType="com.iamcaster.predict.domain.UserPredict">
+ 		SELECT
+ 			`UPID`
+			,`predictOrder`
+			,`UID`
+			,`predictRGID`
+			,`weatherType`
+			,`predictedNum1`
+			,`predictedNum2`
+			,`realNum1`
+			,`realNum2`
+			,`result`
+			,`scored`
+			,`createdAt`
+			,`updatedAt`
+		FROM `userpredict`
+		WHERE
+			`scored` = 1 AND DATE(`createdAt`) <![CDATA[<=]]> DATE_SUB(CURDATE(), INTERVAL 2 DAY)
+ 	</select>
+ 	
+ 	 <select id="getUPIDbyCreatedDateAndRGID" parameterType="map" resultType="com.iamcaster.predict.domain.UserPredict">
+ 		SELECT
+ 			`UPID`
+			,`predictOrder`
+			,`UID`
+			,`predictRGID`
+			,`weatherType`
+			,`predictedNum1`
+			,`predictedNum2`
+			,`realNum1`
+			,`realNum2`
+			,`result`
+			,`scored`
+			,`createdAt`
+			,`updatedAt`
+		FROM `userpredict`
+		WHERE
+			DATE(`createdAt`) = #{createdDate} AND `predictRGID` = #{predictRGID}
+ 	</select>
+
+ 	<update id="updateAnswerByUPID" parameterType="com.iamcaster.predict.domain.UserPredict">
+ 		UPDATE `userpredict`
+ 			SET
+ 			`realNum1` = #{realNum1}
+			,`realNum2` = #{realNum2}
+			,`scored` = 0
+			,`result` = #{result}
+			,`updatedAt` = now()
+ 			WHERE 
+ 			 	`UPID` = #{UPID}
+ 	</update>
+ 	
  </mapper>

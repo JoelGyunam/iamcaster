@@ -18,4 +18,19 @@ public class Dater {
 		return dayString.substring(0, 10).replace("-", "");
 	}
 	
+	public static int parseDateForObservation(ZonedDateTime date) {
+		String dayString = date.toString().substring(0,10).replace("-", "");
+		return Integer.parseInt(dayString);
+	}
+	
+	public static String reverseParser(int date) {
+		String dayString = Integer.toString(date);
+        String year = dayString.substring(0, 4);
+        String month = dayString.substring(4, 6);
+        String day = dayString.substring(6, 8);
+        String concated = year + "-" + month + "-" + day;
+
+        return concated;
+
+	}
 }

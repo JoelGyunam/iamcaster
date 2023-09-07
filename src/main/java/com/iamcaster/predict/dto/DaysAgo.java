@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserPredictDelivery {
+public class DaysAgo {
 	private int UPID;
 	private int predictOrder;
 	private int UID;
@@ -22,5 +22,7 @@ public class UserPredictDelivery {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime updatedAt;
 	
-	private String RegionName;
+	private int daysAgo;
+	private int YYMMDD_KST;
+	private int SDN_ID;
 }

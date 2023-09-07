@@ -423,6 +423,10 @@
 				})
 			})
 			
+			$.ajax({
+				url:"/rest/observation/newList/refresh"
+				,type:"get"
+			})
 			
 		});
 	</script>

@@ -14,4 +14,7 @@ public interface PredictRepository {
 	
 	public int insertPredict(UserPredict userPredict);
 	public int updatePredict(UserPredict userPredict);
+	public List<UserPredict> selectToBeScored();
+	public List<UserPredict> getUPIDbyCreatedDateAndRGID(@Param("createdDate") String createdDate, @Param("predictRGID") int predictRGID);
+	public int updateAnswerByUPID(UserPredict userPredict);
 }

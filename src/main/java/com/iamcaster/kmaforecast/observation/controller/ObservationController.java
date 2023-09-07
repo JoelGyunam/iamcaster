@@ -26,17 +26,14 @@ public class ObservationController {
 		STN_IDList.add(119);
 		STN_IDList.add(202);
 		
-		return observationService.getDataList(2, STN_IDList);
+		return observationService.getDataList(20230808, STN_IDList);
 	}
 	
-	@GetMapping("/test/insert")
+	@GetMapping("/newList/refresh")
 	public Map<String,Integer> insertList(){
-		List<Integer> STN_IDList = new ArrayList<>();
-		STN_IDList.add(119);
-		STN_IDList.add(202);
-		int result = observationService.insertDataList(2, STN_IDList);
+		int result = observationService.refreshObservation();
 		Map<String,Integer> resultMap = new HashMap<>();
-		resultMap.put("insertNumbers", result);
+		resultMap.put("resultNumbers", result);
 		return resultMap;
 	}
 }

@@ -72,6 +72,20 @@
 		WHERE `RGID` = #{RGID}
 	</select>
 	
+	<select id="selectRegionBySTNID">
+		SELECT
+			`RGID`
+			,`regSourceID`
+			,`STN_ID`
+			,`regionName`
+			,`lat`
+			,`lon`
+			,`createdAt`
+			,`updatedAt`
+		FROM `region`
+		WHERE `STN_ID` = #{STN_ID}
+	</select>
+	
 	
  
  </mapper>
