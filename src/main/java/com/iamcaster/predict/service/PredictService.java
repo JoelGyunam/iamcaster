@@ -216,4 +216,44 @@ public class PredictService {
 		}
 	}
 	
+	public Map<String,Integer> getScoreNumbers(int UID) {
+		UserPredict userPredict = new UserPredict();
+		userPredict.setUID(UID);
+		List<UserPredict> predictList = predictRepository.selectAllPredictByUID(userPredict);
+		Map<String,Integer> resultMap = new HashMap<>();
+		int tempRight = 0;
+		int tempWrong = 0;
+		int rainRight = 0;
+		int rainWrong = 0;
+		int unScored = 0;
+		
+		if(userPredict!=null) {
+			for(UserPredict eachPredict : predictList) {
+				if(eachPredict.getScored()==0) {
+					if(eachPredict.getWeatherType().equals("temp")) {
+						if(eachPredict.getResult().equals("정확")) {
+							tempRight ++;
+							} else if(eachPredict.getResult().equals("오보")) {
+								tempWrong++;
+								}
+						} else if(eachPredict.getWeatherType().equals("rain")) {
+							if(eachPredict.getResult().equals("정확")) {
+								tempRight ++;
+								} else if(eachPredict.getResult().equals("오보")) {
+									tempWrong++;
+									}
+					}
+				} else {
+					unScored++;
+					}
+				}
+			}
+		resultMap.put("tempPredictRight", tempRight);
+		resultMap.put("tempPredictWrong", tempWrong);
+		resultMap.put("rainPredictRight", rainRight);
+		resultMap.put("rainPredictWrong", rainWrong);
+		resultMap.put("unScored", unScored);
+		return resultMap;
+	}
+	
 }

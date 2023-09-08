@@ -14,39 +14,16 @@
 </head>
 <body>
 	<div id="wrap">
-		<header class="container">
-			<nav id="ordinaryHeader">
-				<div class="d-flex justify-content-around align-items-center">
-					<div>
-						<button class="btn bg-white"><i class="bi-justify f-title"></i></button>
-					</div>
-					<div class="text-center mt-2" onclick="location.href='/main/predict'">
-						<div class="f-small">모두가 기상국장이 되는 곳</div>
-						<div class="f-content font-weight-bold">나도 캐스터</div>
-					</div>
-					<div>
-						<div class="bg-white"><i class="bi-justify text-white"></i></div>
-					</div>
-				</div>
-				<ul class="nav f-small justify-content-between border-bottom border-top">
-					<li class="nav-item">
-						<a class="nav-link text-dark font-weight-bold" href="/main/predict">날씨 예측하기</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-dark font-weight-bold" href="/main/myscore">나의 정확도</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-dark font-weight-bold" href="/main/userRank">캐스터 순위</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link text-dark font-weight-bold" href="/main/shortforecast">단기 예보</a>
-					</li>
-				</ul>
-			</nav>
-		</header>
+		<jsp:include page="/WEB-INF/jsp/global/header.jsp"/>
 		
-		<section id="content" class="container">
+		<section id="content" class="container border-top">
 			<div style="height:5px"></div>
+			<div class="d-flex container ml-2 align-items-center">
+				<div class="bg-primary text-white f-small px-3 rounded">안내</div>
+				<div class=" f-small ml-3 d-flex align-items-center font-weight-bold">예측한 날씨는 2일 후, 나의 정확도에서 확인할 수 있어요!</div>
+			
+			</div>
+		
 			
 	<c:forEach var="predict" items="${predictListMap }">
 		<c:choose>

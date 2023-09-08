@@ -110,4 +110,24 @@
  			 	`UPID` = #{UPID}
  	</update>
  	
+	<select id="selectAllPredictByUID" parameterType="com.iamcaster.predict.domain.UserPredict" resultType="com.iamcaster.predict.domain.UserPredict">
+ 		SELECT
+ 			`UPID`
+			,`predictOrder`
+			,`UID`
+			,`predictRGID`
+			,`weatherType`
+			,`predictedNum1`
+			,`predictedNum2`
+			,`realNum1`
+			,`realNum2`
+			,`result`
+			,`scored`
+			,`createdAt`
+			,`updatedAt`
+		FROM `userpredict`
+		WHERE
+			`UID` = #{UID}
+ 	</select>
+ 	
  </mapper>
