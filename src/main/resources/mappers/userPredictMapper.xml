@@ -128,6 +128,7 @@
 		FROM `userpredict`
 		WHERE
 			`UID` = #{UID}
+		ORDER BY `createdAt` DESC
  	</select>
  	
  </mapper>

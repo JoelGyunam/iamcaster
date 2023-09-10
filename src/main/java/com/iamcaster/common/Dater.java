@@ -1,6 +1,8 @@
 package com.iamcaster.common;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Dater {
 
@@ -31,6 +33,24 @@ public class Dater {
         String concated = year + "-" + month + "-" + day;
 
         return concated;
-
+	}
+	
+	public static String dateToString(ZonedDateTime date, int interval) {
+		
+		String toString = date.plusDays(interval).format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 E요일"));
+		return toString;
+	}
+	
+	public static int daysLeftToBeScored(ZonedDateTime date) {
+		ZonedDateTime today = ZonedDateTime.now();
+		long interval = Duration.between(date, today).toDays();
+		
+		if(interval == 0) {
+			return 2;
+		} else if(interval==1) {
+			return 1;
+		} else {
+			return (int) interval;
+		}
 	}
 }

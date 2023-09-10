@@ -8,17 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserPredict {
-	int UPID;
-	int predictOrder;
-	int UID;
-	int predictRGID;
-	String weatherType;
-	double predictedNum1;
-	double predictedNum2;
-	double realNum1;
-	double realNum2;
-	String result;
-	int scored;
-	ZonedDateTime createdAt;
-	ZonedDateTime updatedAt;
+	private int UPID;
+	private int predictOrder;
+	private int UID;
+	private int predictRGID;
+	private String weatherType;
+	private double predictedNum1;
+	private double predictedNum2;
+	private double realNum1;
+	private double realNum2;
+	private String result;
+	private int scored;
+	private ZonedDateTime createdAt;
+	private ZonedDateTime updatedAt;
 }

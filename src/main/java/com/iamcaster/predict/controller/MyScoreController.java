@@ -22,6 +22,7 @@ public class MyScoreController {
 		
 		int UID = (int) session.getAttribute("UID");
 		model.addAttribute("scoreNumbers", predictService.getScoreNumbers(UID));
+		model.addAttribute("predictList",predictService.getListByUID(UID));
 		
 		return "service/predict/myscore";
 	}

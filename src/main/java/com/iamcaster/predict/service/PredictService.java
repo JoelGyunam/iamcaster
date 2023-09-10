@@ -1,5 +1,6 @@
 package com.iamcaster.predict.service;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,6 +33,93 @@ public class PredictService {
 	private UserInfoService userInfoService;
 	@Autowired
 	private UserRegionService userRegionService;
+	
+	public List<UserPredictDelivery> getListByUID(int UID){
+		
+		UserPredict userPredict = new UserPredict();
+		userPredict.setUID(UID);
+		List<UserPredict> predictList = predictRepository.selectAllPredictByUID(userPredict);
+		
+		List<UserPredictDelivery> predictDTOList = new ArrayList<>();
+		
+		if(predictList.size()==0) {
+			return predictDTOList;
+		} else {
+			for(UserPredict predictLine : predictList) {
+				UserPredictDelivery userPredictDTO = new UserPredictDelivery();
+				
+				int UPID = predictLine.getUPID();
+				int predictUID = predictLine.getUID();
+				int predictOrder = predictLine.getPredictOrder();
+				int predictRGID = predictLine.getPredictRGID();
+				String weatherType = predictLine.getWeatherType();
+				double predictedNum1 = predictLine.getPredictedNum1();
+				double predictedNum2 = predictLine.getPredictedNum2();
+				double realNum1 = predictLine.getRealNum1();
+				double realNum2 = predictLine.getRealNum2();
+				String myPredict = "";
+				String realNumber = "";
+				String result = predictLine.getResult();
+				int scored = predictLine.getScored();
+				if(scored==1) {
+					if(weatherType.equals("temp")) {
+						weatherType = "기온 예측 <span class=\"material-icons text-dark f-small\">thermostat</span>";
+						myPredict = predictedNum1 + "°C / " + predictedNum2 + "°C";
+					} else if(weatherType.equals("rain")) {
+						weatherType = "기온 예측 <span class=\"material-icons text-dark f-small\">water_drop</span>";
+						if(predictedNum1==0) {
+							myPredict = "비 안와요";
+						}
+					}
+					result="결과 대기중";
+				} else {
+					if(weatherType.equals("temp")) {
+						weatherType = "기온 예측";
+						myPredict = predictedNum1 + "°C / " + predictedNum2 + "°C";
+						realNumber = realNum1 + "°C / " + realNum2 + "°C";
+					} else if(weatherType.equals("rain")) {
+						weatherType = "강수 예측";
+						if(predictedNum1==0) {
+							myPredict = "비 안와요!";
+						} else {
+							myPredict = predictedNum1 +"mm";
+						}
+						realNumber = realNum1 + "";
+					}
+					
+				}
+				ZonedDateTime createdAt = predictLine.getCreatedAt();
+				ZonedDateTime updatedAt = predictLine.getUpdatedAt();
+				String regionName = userRegionService.getRegionByRGID(predictRGID).getRegionName();
+				String parsedCreatedDate = Dater.dateToString(createdAt,0);
+				String parsedTargetDate = Dater.dateToString(createdAt,1);
+				int daysLeftToBeScored = Dater.daysLeftToBeScored(createdAt);
+				
+				userPredictDTO.setUPID(UPID);
+				userPredictDTO.setUID(predictUID);
+				userPredictDTO.setPredictOrder(predictOrder);
+				userPredictDTO.setPredictRGID(predictRGID);
+				userPredictDTO.setWeatherType(weatherType);
+				userPredictDTO.setPredictedNum1(predictedNum1);
+				userPredictDTO.setPredictedNum2(predictedNum2);
+				userPredictDTO.setRealNum1(realNum1);
+				userPredictDTO.setRealNum2(realNum2);
+				userPredictDTO.setResult(result);
+				userPredictDTO.setScored(scored);
+				userPredictDTO.setCreatedAt(createdAt);
+				userPredictDTO.setUpdatedAt(updatedAt);
+				userPredictDTO.setRegionName(regionName);
+				userPredictDTO.setParsedCreatedDate(parsedCreatedDate);
+				userPredictDTO.setParsedTargetDate(parsedTargetDate);
+				userPredictDTO.setMyPredict(myPredict);
+				userPredictDTO.setRealNumber(realNumber);
+				userPredictDTO.setDaysLeftToBeScored(daysLeftToBeScored);
+				
+				predictDTOList.add(userPredictDTO);
+				}
+			}
+		return predictDTOList;
+	}
 	
 	
 	public List<UserPredictDelivery> getTodayPredictByUID(int UID){

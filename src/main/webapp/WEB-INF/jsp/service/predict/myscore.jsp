@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -24,10 +26,82 @@
 			</div>
 			
 			<div class="card my-2">
-				<div class="f-content font-weight-bold m-2">정확도 통계</div>
+				<div class="f-content font-weight-bold m-3">정확도 통계</div>
+				
 				<div class="m-3">
-					<canvas id="myChart"></canvas>
+					<canvas id="donutChart"></canvas>
 				</div>
+			
+				<div class="m-3">
+					<div class="d-flex align-items-center justify-content-center">
+						<div class="bg-warning rounded" style="height:10px; width:20px;"></div><div class="f-small mx-2">전체 예측 성공률 <span id="totalChance" class="font-weight-bold">100%</span></div>
+					</div>
+					<div class="d-flex align-items-center justify-content-center">
+						<div class="bg-primary rounded" style="height:10px; width:20px;"></div><div class="f-small mx-2">기온 예측 성공률 <span id="tempChance" class="font-weight-bold">100%</span></div>
+					</div>
+					<div class="d-flex align-items-center justify-content-center">
+						<div class="bg-success rounded" style="height:10px; width:20px;"></div><div class="f-small mx-2">강수 예측 성공률 <span id="rainChance" class="font-weight-bold">100%</span></div>
+					</div>
+				</div>
+				
+				<div class="m-3">
+					<canvas id="barChart"></canvas>
+				</div>
+			</div>
+			
+			<div class="card my-2">
+				<div class="f-content font-weight-bold m-3">기록</div>
+				
+				
+				<div>
+					<table class="table f-small text-center m-2">
+						<thead>
+							<tr>
+								<th>날짜 </th>
+								<th>지역 </th>
+								<th>예측 구분 </th>
+								<th>나의 예측 </th>
+								<th>실제 날씨 </th>
+								<th>결과 날씨 </th>
+							</tr>
+						</thead>
+						<tbody>
+						<c:forEach var="predict" items="${predictList }">
+							<tr>
+								<td>${predict.parsedTargetDate }<br><span class="f-xsmall">(예측 제출일:${predict.parsedCreatedDate })</span></td>
+								<td>${predict.regionName}</td>
+								<td valign="middle" align="center">${predict.weatherType}</td>
+								<td>${predict.myPredict}</td>
+						<c:choose>
+							<c:when test="${predict.result eq '결과 대기중' }">
+								<td colspan="2" class="text-success">${predict.result }<br><span class="f-xsmall">${predict.daysLeftToBeScored}일 후에 결과를 확인할 수 있어요!</span></td>
+							</c:when>
+							<c:otherwise>
+								<td>${predict.realNumber}</td>
+								<c:choose>
+									<c:when test="${predict.result eq '정확' }">
+										<td class="text-primary">${predict.result }👍</td>
+									</c:when>
+									<c:otherwise>
+										<td>${predict.result }</td>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+							</tr>
+						</c:forEach>
+						
+						</tbody>
+					
+					
+					
+					
+					</table>
+				
+				
+				</div>
+			
+			
 			</div>
 		
 			
@@ -91,7 +165,7 @@
 
 	</script>
 	<script>
-	    const ctx = document.getElementById('myChart');
+	    const ctxForBarChart = document.getElementById('barChart');
 	    var tempPredictRight = Number($("#tempPredictRight").val());
 	    var tempPredictWrong = Number($("#tempPredictWrong").val());
 	    var rainPredictRight = Number($("#rainPredictRight").val());
@@ -99,12 +173,40 @@
 	    var totalChance = ((tempPredictRight+rainPredictRight)/(tempPredictRight+rainPredictRight+tempPredictWrong+rainPredictWrong))*1000;
 	    var tempChance = (tempPredictRight/(tempPredictRight+tempPredictWrong))*1000;
 	    var rainChance = (rainPredictRight/(rainPredictRight+rainPredictWrong))*1000;
+	    if(isNaN(totalChance)){
+	    	totalChance = Number(0);
+	    }
+	    if(isNaN(tempChance)){
+	    	tempChance = Number(0);
+	    }
+	    if(isNaN(rainChance)){
+	    	rainChance = Number(0);
+	    }
 	    
 	    var totalPredictLabel = "전체 예측 ["+(tempPredictRight+rainPredictRight)+"/"+(tempPredictRight+rainPredictRight+tempPredictWrong+rainPredictWrong)+"]";
 	    var tempPredictLabel = "기온 예측 ["+(tempPredictRight)+"/"+(tempPredictRight+tempPredictWrong)+"]";
 	    var rainPredictLabel = "강수 예측 ["+(rainPredictRight)+"/"+(rainPredictRight+rainPredictWrong)+"]";
-	    
-	    new Chart(ctx, {
+	
+		$(document).ready(function(){
+			if(isNaN(totalChance)){
+		    	$("#totalChance").text("0%");
+			} else{
+			    $("#totalChance").text((totalChance/10) + "%");
+			};
+			if(isNaN(tempChance)){
+		    	$("#tempChance").text("0%");
+			} else{
+			    $("#tempChance").text((tempChance/10) + "%");
+			};
+			if(isNaN(rainChance)){
+		    	$("#rainChance").text("0%");
+			} else{
+			    $("#rainChance").text((rainChance/10) + "%");
+			};
+		    
+		});
+
+	    new Chart(ctxForBarChart, {
 	        type: 'bar',
 	        data: {
 	        labels: [totalPredictLabel, tempPredictLabel, rainPredictLabel],
@@ -154,6 +256,54 @@
 	                    display:false,
 	                }
 	            },
+	            
+	        },
+	    });
+	    
+	    
+	    const ctxForDonutChart = document.getElementById('donutChart');
+	    new Chart(ctxForDonutChart, {
+	        type: 'doughnut',
+	        data: {
+
+	        datasets: 
+	            [
+	                {
+	                    label: "전체 예측 성공률",
+	                    data: [totalChance,1000-totalChance],
+	                    borderWidth: 0,
+	                    backgroundColor:['#FFC107','#FFE69A'],
+	                    borderRadius:[10],
+	                }
+	                ,{
+	                    label: "기온 예측 성공률",
+	                    data: [tempChance,1000-tempChance],
+	                    borderWidth: 0,
+	                    borderRadius:10,
+	                    backgroundColor:['#007BFF','#C2DFFF'],
+
+	                }
+	                ,{
+	                    label: "강수 예측 성공률",
+	                    data: [rainChance,1000-rainChance],
+	                    borderWidth: 0,
+	                    borderRadius:10,
+	                    backgroundColor:['#1E973A','#A4EBB4'],
+	                }
+	            ]
+	        },
+	        options: {
+	            maintainAspectRatio: false,
+	            responsive: true,
+	            plugins:{
+	                tooltip: {
+	                    enabled: false,
+	                },
+	                legend:{
+	                    display:true,
+	                }
+	            },
+	            
 	            
 	        },
 	    });

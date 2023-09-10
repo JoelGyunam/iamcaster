@@ -22,5 +22,10 @@ public class UserPredictDelivery {
 	private ZonedDateTime createdAt;
 	private ZonedDateTime updatedAt;
 	
-	private String RegionName;
+	private String regionName;
+	private String parsedCreatedDate;
+	private String parsedTargetDate;
+	private String myPredict;
+	private String realNumber;
+	private int daysLeftToBeScored;
 }
