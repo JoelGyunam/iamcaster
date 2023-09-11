@@ -51,8 +51,16 @@
 			
 			<div class="card my-2">
 				<div class="f-content font-weight-bold m-3">기록</div>
-				
-				
+
+				<c:choose>
+				<c:when test="${empty predictList}">
+				<div class="f-content m-5 text-center" onclick="location.href='/main/predict'">
+					<div class="m-3">아직 예측한 예보가 없어요.</div>
+					<div class="m-3">지금 바로 내일 날씨를 예측해보고, 나의 정확도를 확인해 보세요!</div>
+					<button class="m-3 btn btn-primary">날씨 예측하기</button>
+				</div>
+				</c:when>
+				<c:otherwise>
 				<div>
 					<table class="table f-small text-center m-2">
 						<thead>
@@ -90,24 +98,12 @@
 						</c:choose>
 							</tr>
 						</c:forEach>
-						
 						</tbody>
-					
-					
-					
-					
 					</table>
-				
-				
 				</div>
-			
-			
+				</c:otherwise>
+				</c:choose>				
 			</div>
-		
-			
-			
-		
-			
 			<div style="height:5px"></div>
 		</section>
 	
@@ -191,17 +187,17 @@
 			if(isNaN(totalChance)){
 		    	$("#totalChance").text("0%");
 			} else{
-			    $("#totalChance").text((totalChance/10) + "%");
+			    $("#totalChance").text((totalChance/10).toFixed(2) + "%");
 			};
 			if(isNaN(tempChance)){
 		    	$("#tempChance").text("0%");
 			} else{
-			    $("#tempChance").text((tempChance/10) + "%");
+			    $("#tempChance").text((tempChance/10).toFixed(2) + "%");
 			};
 			if(isNaN(rainChance)){
 		    	$("#rainChance").text("0%");
 			} else{
-			    $("#rainChance").text((rainChance/10) + "%");
+			    $("#rainChance").text((rainChance/10).toFixed(2) + "%");
 			};
 		    
 		});

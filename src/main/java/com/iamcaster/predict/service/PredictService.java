@@ -2,11 +2,13 @@ package com.iamcaster.predict.service;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.iamcaster.common.Dater;
 import com.iamcaster.kmaforecast.observation.domain.Observation;
 import com.iamcaster.predict.domain.UserPredict;
+import com.iamcaster.predict.dto.PredictRank;
 import com.iamcaster.predict.dto.UserPredictDelivery;
 import com.iamcaster.predict.repository.PredictRepository;
 import com.iamcaster.regional.userregion.service.UserRegionService;
@@ -33,6 +36,85 @@ public class PredictService {
 	private UserInfoService userInfoService;
 	@Autowired
 	private UserRegionService userRegionService;
+	
+	public List<PredictRank> getPredictRank(){
+		List<PredictRank> rankList = predictRepository.predictResultGroupByUID(null);
+		List<PredictRank> toModelList = rankList.stream()
+		
+		//스트림 활용, 람다식으로 표헌
+		
+		.filter(eachRank -> userInfoService.getUserInfo(eachRank.getUID()) != null)
+		.map(eachRank -> {
+			int UID = eachRank.getUID();
+			int correct = eachRank.getCorrect();
+			int wrong = eachRank.getWrong();
+			String nickname = userInfoService.getUserInfo(UID).getNickname();
+			String regionName = userInfoService.getUserInfo(UID).getRegionName();
+			int sumCount = correct+wrong;
+			double accuracy = ((double)correct / sumCount)*100;
+			String accuracyStyring = String.format("%.2f", accuracy) + "%";
+			
+			eachRank.setNickname(nickname);
+			eachRank.setRegionName(regionName);
+			eachRank.setSumCount(sumCount);
+			eachRank.setAccuracy(accuracy);
+			eachRank.setAccuracyString(accuracyStyring);
+			
+			return eachRank;
+		})
+//		.sorted((a,b) -> (int)b.getAccuracy() - (int)a.getAccuracy())
+		.sorted(Comparator.comparing(PredictRank::getAccuracy).reversed())
+		.collect(Collectors.toList());
+		
+		
+		//기존
+//		List<PredictRank> toModelList = new ArrayList<>();
+//		Map<Integer,Double> rankNumberMap = new HashMap<>();
+//		if(rankList.size()!=0) {
+//			
+//			for(PredictRank eachRank : rankList) {
+//				int UID = eachRank.getUID();
+//				int correct = eachRank.getCorrect();
+//				int wrong = eachRank.getWrong();
+//				if(userInfoService.getUserInfo(UID)==null) {
+//					continue;
+//				}
+//				String nickname = userInfoService.getUserInfo(UID).getNickname();
+//				String regionName = userInfoService.getUserInfo(UID).getRegionName();
+//				int sumCount = (correct + wrong);
+//				double accuracy = ((double)correct / sumCount)*100;
+//				String accuracyString  = String.format("%.2f", accuracy) + "%";
+//				
+//				rankNumberMap.put(UID, accuracy);
+//				
+//				eachRank.setUID(UID);
+//				eachRank.setNickname(nickname);
+//				eachRank.setRegionName(regionName);
+//				eachRank.setSumCount(sumCount);
+//				eachRank.setAccuracy(accuracy);
+//				eachRank.setAccuracyString(accuracyString);
+//				toModelList.add(eachRank);
+//			}
+//			
+//			rankNumberMap = rankNumberMap.entrySet().stream()
+//	                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+//	                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+//			
+//			int rank = 1;
+//			for (Integer UID : rankNumberMap.keySet()) {
+//				rankNumberMap.put(UID, (double)rank);
+//			}
+//			
+//			for(PredictRank eachRank : toModelList) {
+//				int UID = eachRank.getUID();
+//				double userRank = rankNumberMap.get(UID);
+//				eachRank.setRank((int)userRank);
+//			}
+//			
+//		}
+		return toModelList;
+	}
+	
 	
 	public List<UserPredictDelivery> getListByUID(int UID){
 		
@@ -74,17 +156,17 @@ public class PredictService {
 					result="결과 대기중";
 				} else {
 					if(weatherType.equals("temp")) {
-						weatherType = "기온 예측";
+						weatherType = "기온 예측 <span class=\"material-icons text-dark f-small\">thermostat</span>";
 						myPredict = predictedNum1 + "°C / " + predictedNum2 + "°C";
 						realNumber = realNum1 + "°C / " + realNum2 + "°C";
 					} else if(weatherType.equals("rain")) {
-						weatherType = "강수 예측";
+						weatherType = "기온 예측 <span class=\"material-icons text-dark f-small\">water_drop</span>";
+						realNumber = realNum1 + "mm";
 						if(predictedNum1==0) {
 							myPredict = "비 안와요!";
 						} else {
 							myPredict = predictedNum1 +"mm";
 						}
-						realNumber = realNum1 + "";
 					}
 					
 				}
@@ -296,9 +378,9 @@ public class PredictService {
 			criteria1 = -criteria1;
 		}
 		if(predict1 == 0 && real1==0) {
-			return "정보";
+			return "정확";
 		} else if(criteria1 <= 0.1) {
-			return "정보";
+			return "정확";
 		} else {
 			return "오보";
 		}

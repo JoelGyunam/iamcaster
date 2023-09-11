@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.iamcaster.predict.domain.UserPredict;
+import com.iamcaster.predict.dto.PredictRank;
 
 @Repository
 public interface PredictRepository {
@@ -17,4 +18,5 @@ public interface PredictRepository {
 	public List<UserPredict> getUPIDbyCreatedDateAndRGID(@Param("createdDate") String createdDate, @Param("predictRGID") int predictRGID);
 	public int updateAnswerByUPID(UserPredict userPredict);
 	public List<UserPredict> selectAllPredictByUID(UserPredict userPredict);
+	public List<PredictRank> predictResultGroupByUID(@Param(value="predictRGID") Integer RGID);
 }

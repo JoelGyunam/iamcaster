@@ -131,4 +131,19 @@
 		ORDER BY `createdAt` DESC
  	</select>
  	
+	<select id="predictResultGroupByUID" parameterType="Integer" resultType="com.iamcaster.predict.dto.PredictRank">
+	    SELECT
+			`UID`,sum(`result`="정확") AS `correct`,sum(`result`="오보") AS `wrong`
+		FROM `userpredict`
+		WHERE
+			`scored` = 0
+		<choose>
+			<when test="predictRGID!=null">
+            AND
+            `predictRGID` = #{predictRGID}
+			</when>
+		</choose>
+		GROUP BY UID;
+	</select>
+ 	
  </mapper>
