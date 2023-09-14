@@ -145,5 +145,19 @@
 		</choose>
 		GROUP BY UID;
 	</select>
+	
+	
+	<select id="predictResultGroupByRGID" resultType="com.iamcaster.predict.dto.RankRegion">
+        SELECT
+			`predictRGID`
+            ,sum(`result`="정확" AND `weatherType`='temp') AS `tempCorrect`
+            ,sum(`result`="오보"  AND `weatherType`='temp' ) AS `tempWrong`
+            ,sum(`result`="정확" AND `weatherType`='rain') AS `rainCorrect`
+            ,sum(`result`="오보"  AND `weatherType`='rain' ) AS `rainWrong`
+		FROM `userpredict`
+		WHERE
+			`scored` = 0
+		GROUP BY predictRGID;
+	</select>
  	
  </mapper>

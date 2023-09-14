@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.iamcaster.predict.domain.UserPredict;
 import com.iamcaster.predict.dto.PredictRank;
+import com.iamcaster.predict.dto.RankRegion;
 
 @Repository
 public interface PredictRepository {
@@ -19,4 +20,5 @@ public interface PredictRepository {
 	public int updateAnswerByUPID(UserPredict userPredict);
 	public List<UserPredict> selectAllPredictByUID(UserPredict userPredict);
 	public List<PredictRank> predictResultGroupByUID(@Param(value="predictRGID") Integer RGID);
+	public List<RankRegion> predictResultGroupByRGID();
 }

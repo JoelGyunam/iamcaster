@@ -20,6 +20,15 @@ section{
 	letter-spacing: 6px;
 }
 
+.bg-map{
+	width: 30px;
+	height: 30px;
+	background-color: crimson;
+	border-radius: 50px;
+	text-align: center;
+	color: #EBEBEB;
+}
+
 .f-content{
 	font-size: 15px;
 	letter-spacing: 3px;
