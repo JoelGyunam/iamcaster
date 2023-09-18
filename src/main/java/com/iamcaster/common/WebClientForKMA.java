@@ -1,5 +1,6 @@
 package com.iamcaster.common;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.iamcaster.kmaforecast.observation.domain.Observation;
+import com.iamcaster.kmaforecast.shortforecast.domain.ShortForecast;
 import com.iamcaster.regional.kma.obvregion.domain.OBVRegion;
 import com.iamcaster.regional.kma.sfcregion.domain.SFCRegion;
 
@@ -23,6 +25,63 @@ public class WebClientForKMA {
 	
 	public WebClientForKMA(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.baseUrl("https://apihub.kma.go.kr").build();
+	}
+	
+	public String fetchAndToStringForShortForecast(String REG_ID) {
+		String parameter = "/api/typ01/url/fct_afs_dl.php?disp=1&authKey=8HXVgof0RqS11YKH9EakVA&timfc=0&reg="+REG_ID;
+		Mono<String> mono = webClient.get()
+				.uri(parameter)
+				.retrieve()
+				.bodyToMono(String.class);
+		
+		String resultString = mono.block();
+		return resultString;
+	}
+	
+	public List<ShortForecast> parseDataForShortForecast(String data){
+		List<ShortForecast> shortForecastList = new ArrayList<>();
+		String[] lines = data.trim().split("\n");
+		for(String line : lines) {
+			if(line.startsWith("#")) {
+				continue;
+			}
+			ShortForecast shortForecast = lineParserForShortForecast(line);
+			shortForecastList.add(shortForecast);
+		}
+		return shortForecastList;
+	}
+	
+	public ShortForecast lineParserForShortForecast(String line) {
+		String[] parts = line.trim().split(",");
+		if(parts.length < 17) {
+			throw new IllegalArgumentException("유효하지 않은 데이터 인입");
+		}
+		
+		ShortForecast shortForecast = new ShortForecast();
+		
+		String REG_ID = parts[0];	//예보구역코드
+		String TM_FC = parts[1];	//발표시각(e.g. 202309150500)
+		String TM_EF = parts[2];	//발효시각(e.g. 202309150500)
+		String MOD = parts[3];		//구간 (A01(24시간),A02(12시간))
+		int NE = Integer.parseInt(parts[4]);			//발효번호
+		int TA = Integer.parseInt(parts[12]);			//기온
+		int ST = Integer.parseInt(parts[13]);			//강수확률(%)
+		String SKY = parts[14];		//하늘상태코드 (DB01(맑음),DB02(구름조금),DB03(구름많음),DB04(흐림))
+		int PREP = Integer.parseInt(parts[15]);		//강수유무코드 (1(비),2(비/눈),4(눈/비),3(눈))
+		String WF = parts[16];		//예보
+		
+		shortForecast.setREG_ID(REG_ID);
+		shortForecast.setTM_FC(TM_FC);
+		shortForecast.setTM_EF(TM_EF);
+		shortForecast.setMOD(MOD);
+		shortForecast.setNE(NE);
+		shortForecast.setTA(TA);
+		shortForecast.setST(ST);
+		shortForecast.setSKY(SKY);
+		shortForecast.setPREP(PREP);
+		shortForecast.setWF(WF);
+		
+		return shortForecast;
 	}
 	
 	public String fetchAndToStringForObservation(int parsedDate,List<Integer> STN_ID) {
