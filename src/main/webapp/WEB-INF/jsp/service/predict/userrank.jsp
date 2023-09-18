@@ -62,7 +62,6 @@
 				
 				var goTo = $(this).prop("id");
 				let UID = ${UID};
-				console.log(UID);
 				
 				if(goTo == "allRegionToggle"){
 					$.ajax({
@@ -79,7 +78,8 @@
 					})
 				} else if(goTo == "selectedRegionToggle"){
 					$.ajax({
-						url:"/main/userRank/toggleCame?UID="+UID
+						url:"/main/userRank/toggleCame"
+						,data:{"UID":UID}
 						,type:"get"
 						,success:function(data){
 							$(".changable").remove();

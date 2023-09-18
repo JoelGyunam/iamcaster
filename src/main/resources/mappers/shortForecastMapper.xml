@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.iamcaster.kmaforecast.shortforecast.repository.ShortForecastRepository">
+ 
+ 	<select id="selectTodayShortForecast">
+ 		SELECT 
+ 			`SFCID`
+			,`REG_ID`
+			,`TM_FC`
+			,`TM_EF`
+			,`MOD`
+			,`NE`
+			,`TA`
+			,`ST`
+			,`SKY`
+			,`PREP`
+			,`WF`
+			,`createdAt`
+			,`createdDate`
+			,`updatedAt`
+		FROM `shortforecast`
+		WHERE
+			`REG_ID` = #{REG_ID} AND `createdDate` = DATE(now())
+		ORDER BY `NE` ASC;
+ 	
+ 	</select>
+ 
+ 	<insert id="upsertShortForecastList" parameterType="java.util.List">
+ 		INSERT INTO `shortforecast`
+ 			(
+				`REG_ID`
+				,`TM_FC`
+				,`TM_EF`
+				,`MOD`
+				,`NE`
+				,`TA`
+				,`ST`
+				,`SKY`
+				,`PREP`
+				,`WF`
+ 			)
+ 		VALUES
+ 		<if test="list != null and list.size > 0">
+ 		<foreach collection="list" item="item" index="index" separator=",">
+ 			(
+				#{item.REG_ID}
+				,#{item.TM_FC}
+				,#{item.TM_EF}
+				,#{item.MOD}
+				,#{item.NE}
+				,#{item.TA}
+				,#{item.ST}
+				,#{item.SKY}
+				,#{item.PREP}
+				,#{item.WF}
+ 			)
+ 		</foreach>
+ 		ON DUPLICATE KEY UPDATE
+ 				`TM_FC` = values(`TM_FC`)
+				,`TM_EF` = values(`TM_EF`)
+				,`MOD` = values(`MOD`)
+				,`NE` = values(`NE`)
+				,`TA` = values(`TA`)
+				,`ST` = values(`ST`)
+				,`SKY` = values(`SKY`)
+				,`PREP` = values(`PREP`)
+				,`WF` = values(`WF`)
+				,`updatedAt` = NOW(); 
+				
+	 	</if>
+ 	</insert>
+ 
+ </mapper>

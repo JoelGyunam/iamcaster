@@ -25,7 +25,7 @@
 						<a id="navUserRankBtn" class="nav-link text-dark" href="/main/userRank">캐스터 순위</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link text-dark" href="/main/shortforecast">단기 예보</a>
+						<a id="navShortForcastBtn" class="nav-link text-dark" href="/main/shortforecast">단기 예보</a>
 					</li>
 				</ul>
 			</nav>
@@ -48,7 +48,9 @@
 				$("#navMyscoreBtn").addClass("font-weight-bold");
 			} else if(thisPath.startsWith("/main/userRank")){
 				$("#navUserRankBtn").addClass("font-weight-bold");
-			}
+			} else if(thisPath.startsWith("/main/shortforecast")){
+				$("#navShortForcastBtn").addClass("font-weight-bold");
+			};
 		
 		
 		});

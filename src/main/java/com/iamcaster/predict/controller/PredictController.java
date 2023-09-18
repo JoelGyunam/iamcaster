@@ -1,6 +1,6 @@
 package com.iamcaster.predict.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iamcaster.predict.dto.UserPredictDelivery;
 import com.iamcaster.predict.service.PredictService;
 import com.iamcaster.regional.userregion.service.UserRegionService;
-import com.iamcaster.user.service.UserInfoService;
 
 @RequestMapping("/main/predict")
 @Controller
@@ -31,28 +31,37 @@ public class PredictController {
 		int UID = (int) session.getAttribute("UID");
 		model.addAttribute("regionList",userRegionService.getAllRegionList());
 		
-		List<UserPredictDelivery> predictListMap = predictService.getTodayPredictByUID(UID);
+		Map<Integer, UserPredictDelivery> predictViewMap = predictService.getTodayPredictByUID(UID);
 		
-		if(predictListMap!=null) {
-			model.addAttribute("predictListMap",predictListMap);
+		if(predictViewMap!=null) {
+			model.addAttribute("predictedMap",predictViewMap);
 		};
 		
 		return "service/predict/predict";
 	}
 	
+	@GetMapping("/addCard")
+	public String addCard(@RequestParam("RGID") int RGID,@RequestParam("order") int order, Model model) {
+		
+		model.addAttribute("predictedMap",predictService.newCards(RGID, order));
+		
+		return "service/predict/predict-card";
+
+	}
+	
 	@GetMapping("/1")
 	@ResponseBody
-	public List<UserPredictDelivery> predictViewTest(HttpSession session, Model model) {
+	public Map<Integer, UserPredictDelivery> predictViewTest(HttpSession session, Model model) {
 		
 		int UID = (int) session.getAttribute("UID");
 		
-		List<UserPredictDelivery> predictListMap = predictService.getTodayPredictByUID(UID);
+		Map<Integer, UserPredictDelivery> predictViewMap = predictService.getTodayPredictByUID(UID);
 		
-		if(predictListMap!=null) {
-			model.addAttribute("predictListMap",predictListMap);
+		if(predictViewMap!=null) {
+			model.addAttribute("predictedMap",predictViewMap);
 		};
 		
-		return predictListMap;
+		return predictViewMap;
 	}
 	
 }

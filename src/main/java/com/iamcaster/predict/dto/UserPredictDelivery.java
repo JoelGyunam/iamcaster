@@ -28,4 +28,8 @@ public class UserPredictDelivery {
 	private String myPredict;
 	private String realNumber;
 	private int daysLeftToBeScored;
+	
+	private String shortForecastAMString;
+	private String shortForecastPMString;
+	
 }
