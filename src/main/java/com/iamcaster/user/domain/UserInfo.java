@@ -15,6 +15,8 @@ public class UserInfo {
 	private String salt;
 	private int NickID;
 	private int RGID;
+	private boolean ifOptionalTermsAgreed;
+	private ZonedDateTime optionalTerms;
 	private ZonedDateTime createdAt;
 	private ZonedDateTime updatedAt;
 	

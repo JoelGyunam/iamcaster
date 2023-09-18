@@ -53,11 +53,12 @@ public class UserInfoService {
 		} else return true;
 	}
 	
-	public UserInfo registration(String email, String password, int NickID, int RGID) {
+	public UserInfo registration(String email, String password, int NickID, int RGID, boolean ifOptionalTermsAgreed) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setEmail(email);
 		userInfo.setNickID(NickID);
 		userInfo.setRGID(RGID);
+		userInfo.setIfOptionalTermsAgreed(ifOptionalTermsAgreed);
 		
 		String salt = Encrypt.getSalt();
 		String encPassword =Encrypt.getEncrypt(password, salt);

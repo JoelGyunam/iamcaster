@@ -67,6 +67,21 @@
 				<div class="ml-3 f-content text-secondary">가입 후에도 언제든지 수정 가능해요.</div>
 			</div>
 			
+			<div class="card p-3">
+				<div class="f-content font-weight-bold">나도캐스터 회원 약관</div>
+				<div class="d-flex">
+					<label class="f-content mt-4 font-weight-bold"><input id="termsAll" type="checkbox">      전체 동의하기</label>
+					<div id="openMore" class="ml-5 f-content mt-4 font-weight-bold">↓</div>
+				</div>
+				<div id="termsLines" class="ml-2 d-none">
+					<hr class="mr-2">
+					<label class="f-content"><input id="ageOver" class="terms" type="checkbox">  만 14세 이상입니다.</label><br>
+					<label class="f-content"><input id="defaultTerms" class="terms" type="checkbox">  [필수] 나도캐스터 이용약관 <a href="/policies/terms"> (약관 상세) ></a></label><br>
+					<label class="f-content"><input id="optionalTerms" class="terms" type="checkbox">  [선택] 이벤트 및 혜택 정보 수신</label>
+				</div>
+			</div>
+			
+			
 			<div class="pt-3">
 				<div class="m-3 d-flex justify-content-center">
 					<button id="regSubmitBtn" class="btn btn-success col-6 text-white">완료하기</button>
@@ -204,6 +219,53 @@
 			var NickID = "";
 			var nickname = "";
 			var nicknameDupCheck = false;
+			var ageOver = false;
+			var defaultTerms = false;
+			var optionalTerms = false;
+			
+			$("#openMore").on("click",function(){
+				$("#termsLines").toggleClass("d-none");
+			})
+			
+			$("#termsAll").on("click",function(){
+				
+				var result = $(this).is(":checked");
+				if(result==true){
+					$("#ageOver").prop("checked",true);
+					ageOver = $("#ageOver").is(":checked");
+
+					$("#defaultTerms").prop("checked",true);
+					defaultTerms = $("#defaultTerms").is(":checked");
+
+					$("#optionalTerms").prop("checked",true);
+					optionalTerms = $("#optionalTerms").is(":checked");
+
+				} else{
+					$("#ageOver").prop("checked",false);
+					ageOver = $("#ageOver").is(":checked");
+
+					$("#defaultTerms").prop("checked",false);
+					defaultTerms = $("#defaultTerms").is(":checked");
+
+					$("#optionalTerms").prop("checked",false);
+					optionalTerms = $("#optionalTerms").is(":checked");
+				}
+
+			});
+			
+			$(".terms").on("click",function(){
+				ageOver = $("#ageOver").is(":checked");
+				defaultTerms = $("#defaultTerms").is(":checked");
+				optionalTerms = $("#optionalTerms").is(":checked");
+
+				
+				if(ageOver == false || defaultTerms == false || optionalTerms == false){
+					$("#termsAll").prop("checked",false);
+				};
+				if(ageOver == true && defaultTerms == true && optionalTerms == true){
+					$("#termsAll").prop("checked",true);
+				}
+			})
 
 			
 			$("#regSubmitBtn").on("click",function(){
@@ -227,6 +289,15 @@
 				}
 				if(RGID==""){
 					alert("지역을 선택해 주세요");
+					return;
+				}
+				if(ageOver==false){
+					alert("만 14세 미만은 서비스 이용이 불가합니다.\n14세 이상 여부를 알려주세요.");
+					return;
+				}
+				if(termsAll==false){
+					alert("필수 약관에 동의해 주세요");
+					return;
 				}
 				if(NickID == ""){
 					nickname = $("#nicknameInput").val();
@@ -258,6 +329,7 @@
 						,"password":pwInput
 						,"NickID":NickID
 						,"RGID":RGID
+						,"optionalTerms":optionalTerms
 					}
 					,success:function(data){
 						if(data.result=="success"){

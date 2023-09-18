@@ -58,6 +58,11 @@
 			,salt
 			,NickID
 			,RGID
+			<choose>
+			<when test="ifOptionalTermsAgreed == true">
+			,optionalTerms
+			</when>
+			</choose>
 			)
 		VALUE
 			(
@@ -66,6 +71,11 @@
 			,#{salt}
 			,#{NickID}
 			,#{RGID}
+			<choose>
+			<when test="ifOptionalTermsAgreed == true">
+			,NOW()
+			</when>
+			</choose>
 			)
  	
  	</insert>
@@ -73,7 +83,7 @@
  	<update id="updatePW" parameterType="com.iamcaster.user.domain.UserInfo">
  	
  		UPDATE `userInfo`
- 		SET `salt` = #{salt}, `password` = #{password}
+ 		SET `salt` = #{salt}, `password` = #{password}, `updatedAt` = NOW()
  		WHERE UID = #{UID}
  	
  	</update>

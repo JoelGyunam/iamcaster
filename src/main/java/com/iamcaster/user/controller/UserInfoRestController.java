@@ -40,11 +40,12 @@ public class UserInfoRestController {
 			,@RequestParam("password") String password
 			,@RequestParam("NickID") int NickID
 			,@RequestParam("RGID") int RGID
+			,@RequestParam("optionalTerms") boolean ifOptionalTermsAgreed
 			,HttpSession session
 			){
 		Map<String,String> resultMap = new HashMap<>();
 		UserInfo userInfo = new UserInfo();
-		userInfo = userInfoService.registration(email, password, NickID, RGID);
+		userInfo = userInfoService.registration(email, password, NickID, RGID, ifOptionalTermsAgreed);
 		if(userInfo != null) {
 			resultMap.put("result", "success");
 			int UID = userInfo.getUID();
