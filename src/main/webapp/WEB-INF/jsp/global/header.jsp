@@ -4,7 +4,7 @@
 			<nav id="ordinaryHeader">
 				<div class="d-flex justify-content-around align-items-center">
 					<div>
-						<button class="btn bg-white"><i class="bi-justify f-title"></i></button>
+						<button id="hamburgerBtn" class="btn bg-white"><i class="bi-justify f-title"></i></button>
 					</div>
 					<div class="text-center mt-2" onclick="location.href='/main/predict'">
 						<div class="f-small">모두가 기상국장이 되는 곳</div>
@@ -51,6 +51,10 @@
 			} else if(thisPath.startsWith("/main/shortforecast")){
 				$("#navShortForcastBtn").addClass("font-weight-bold");
 			};
+			
+			$("#hamburgerBtn").on("click",function(){
+				location.href="/main/menu";
+			})
 		
 		
 		});

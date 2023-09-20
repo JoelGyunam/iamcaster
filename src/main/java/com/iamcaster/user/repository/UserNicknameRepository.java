@@ -13,5 +13,6 @@ public interface UserNicknameRepository {
 	public UserNickname selectOneByNickID(int NickID);
 	public int deleteNicknameByNickID(int NickID);
 	public int updateNickname(UserNickname userNickname);
+	public int withdrawalNickname(UserNickname userNickname);
 	
 }

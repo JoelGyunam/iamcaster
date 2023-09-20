@@ -25,6 +25,52 @@ public class UserInfoService {
 	private UserRegionService userRegionService;
 	@Autowired
 	private UserNicknameService userNicknameService;
+
+	public String withdrawal(int UID) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUID(UID);
+		userInfo.setEmail(UID+"@not.user");
+		int userInfoResult = userInfoRepository.withdrawalUpdate(userInfo);
+		Random random = new Random();
+		String randomPW = Integer.toString(random.nextInt());
+		int pwResult = changePW(UID,"asdfasdf");
+		
+		int nicknameResult = userNicknameService.withdrawalNickname(UID);
+		
+		if(userInfoResult == 1
+				&& pwResult == 1
+				&&nicknameResult ==1			
+				) {
+			return "bye";
+		} else {
+			return "fail";
+		}
+		
+	}
+	
+	public int updateRGID(int UID, int RGID) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUID(UID);
+		userInfo.setRGID(RGID);
+		return userInfoRepository.updateRGID(userInfo);
+	}
+	
+	public int updateNickID(int UID, int NickID) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUID(UID);
+		userInfo.setNickID(NickID);
+		return userInfoRepository.updateNickID(userInfo);
+	}
+	
+	public int optionalTermsSubmit(int UID, boolean agreed) {
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUID(UID);
+		if(agreed) {
+			return userInfoRepository.updateOptionalTermsAgreed(userInfo);
+		} else {
+			return userInfoRepository.updateOptionalTermsDisagreed(userInfo);
+		}
+	};
 	
 	public UserInfoOverral getUserInfo(int UID) {
 		UserInfo userInfo = userInfoRepository.getOneUserInfoByUID(UID);
@@ -42,6 +88,7 @@ public class UserInfoService {
 			overral.setRegionName(userRegionService.getRegionByRGID(userInfo.getRGID()).getRegionName());
 			overral.setCreatedAt(userInfo.getCreatedAt());
 			overral.setUpdatedAt(userInfo.getUpdatedAt());
+			overral.setOptionalTerms(userInfo.getOptionalTerms());
 		}
 		return overral;
 	}
@@ -149,4 +196,5 @@ public class UserInfoService {
 		
 		return userInfoRepository.updatePW(targetUser);
 	}
+	
 }

@@ -15,6 +15,12 @@ public class UserNicknameService {
 	@Autowired
 	private UserNicknameRepository userNicknameRepository;
 	
+	public int withdrawalNickname(int UID) {
+		UserNickname userNickname = new UserNickname();
+		userNickname.setUID(UID);
+		return userNicknameRepository.withdrawalNickname(userNickname);
+	}
+	
 	public boolean ifDuplicatedNickname(String nickname) {
 		List<UserNickname> nicknameList = new ArrayList<>();
 		nicknameList = userNicknameRepository.selectByNickname(nickname);

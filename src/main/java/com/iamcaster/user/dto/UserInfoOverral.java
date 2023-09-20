@@ -20,4 +20,8 @@ public class UserInfoOverral {
 	
 	private String Nickname;
 	private String regionName;
+	
+	private ZonedDateTime optionalTerms;
+	
+	private String accuracyRate;
 }

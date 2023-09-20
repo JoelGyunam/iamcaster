@@ -5,6 +5,19 @@
  
  <mapper namespace="com.iamcaster.user.repository.UserInfoRepository">
  
+ 	<update id="updateOptionalTermsAgreed" parameterType="com.iamcaster.user.domain.UserInfo">
+ 		UPDATE `userInfo`
+ 		SET `optionalTerms` = NOW(), `updatedAt` = NOW()
+ 		WHERE `UID` = #{UID}
+ 	</update>
+ 	
+ 	<update id="updateOptionalTermsDisagreed" parameterType="com.iamcaster.user.domain.UserInfo">
+ 		UPDATE `userInfo`
+ 		SET `optionalTerms` = null, `updatedAt` = NOW()
+ 		WHERE `UID` = #{UID}
+ 	</update>
+ 
+ 
  	<select id="getUserInfoByEmail" parameterType="String" resultType="com.iamcaster.user.domain.UserInfo">
  	
  		SELECT
@@ -31,6 +44,7 @@
 			,RGID
 			,createdAt
 			,updatedAt
+			,optionalTerms
  		FROM `userInfo`
  		WHERE `UID` = #{UID}
  	</select>
@@ -45,6 +59,7 @@
 			,RGID
 			,createdAt
 			,updatedAt
+			,optionalTerms
  		FROM `userInfo`
  		WHERE `UID` = #{UID}
  	</select>
@@ -81,11 +96,27 @@
  	</insert>
  	
  	<update id="updatePW" parameterType="com.iamcaster.user.domain.UserInfo">
- 	
  		UPDATE `userInfo`
  		SET `salt` = #{salt}, `password` = #{password}, `updatedAt` = NOW()
  		WHERE UID = #{UID}
+ 	</update>
  	
+ 	<update id="updateNickID" parameterType="com.iamcaster.user.domain.UserInfo">
+ 		UPDATE `userInfo`
+ 		SET `NickID` = #{NickID}, `updatedAt` = NOW()
+ 		WHERE UID = #{UID}
+ 	</update>
+ 	
+ 	<update id="updateRGID" parameterType="com.iamcaster.user.domain.UserInfo">
+ 		UPDATE `userInfo`
+ 		SET `RGID` = #{RGID}, `updatedAt` = NOW()
+ 		WHERE UID = #{UID}
+ 	</update>
+ 	
+ 	<update id="withdrawalUpdate" parameterType="com.iamcaster.user.domain.UserInfo">
+ 		UPDATE `userInfo`
+ 		SET `email` = #{email}, `updatedAt` = NOW()
+ 		WHERE UID = #{UID}
  	</update>
  
  </mapper>

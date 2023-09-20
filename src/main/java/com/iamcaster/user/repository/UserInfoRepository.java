@@ -15,4 +15,9 @@ public interface UserInfoRepository {
 	public UserInfo getOneUserInfoByUID(@Param("UID") int UID);
 	public int insertUserInfo(UserInfo userInfo);
 	public int updatePW(UserInfo userInfo);
+	public int updateOptionalTermsAgreed(UserInfo userInfo);
+	public int updateOptionalTermsDisagreed(UserInfo userInfo);
+	public int updateNickID(UserInfo userInfo);
+	public int updateRGID(UserInfo userInfo);
+	public int withdrawalUpdate(UserInfo userInfo);
 }

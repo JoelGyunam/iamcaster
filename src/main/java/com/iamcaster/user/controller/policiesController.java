@@ -12,4 +12,9 @@ public class policiesController {
 	public String termsView() {
 		return "policies/terms";
 	}
+	
+	@GetMapping("/privacy")
+	public String privacyView() {
+		return "policies/privacy";
+	}
 }

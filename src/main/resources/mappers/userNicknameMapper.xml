@@ -41,4 +41,12 @@
  			WHERE `NickID` = #{NickID}
  	</update>
  
+  	<update id = "withdrawalNickname" parameterType="com.iamcaster.user.domain.UserNickname">
+ 		UPDATE `usernickname`
+	 		SET 
+	 			`nickname` = '탈퇴한 캐스터'
+	 			,`updatedAt` = now()
+ 			WHERE `UID` = #{UID}
+ 	</update>
+ 
  </mapper>

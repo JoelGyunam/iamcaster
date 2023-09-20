@@ -25,6 +25,49 @@ public class UserInfoRestController {
 	@Autowired
 	private UserNicknameService userNicknameService;
 	
+	@PostMapping("/withdrawal")
+	public Map<String,String> withdrawal(HttpSession session){
+		Map<String,String> resultMap = new HashMap<>();
+		int UID = (int) session.getAttribute("UID");
+		String result = userInfoService.withdrawal(UID);
+		resultMap.put("result", result);
+		return resultMap;
+	}
+	
+	@PostMapping("/logout")
+	public Map<String,String> logout(HttpSession session){
+		Map<String,String> resultMap = new HashMap<>();
+		session.removeAttribute("UID");
+		resultMap.put("result", "success");
+		return resultMap;
+	}
+	
+	@GetMapping("/userinfo/edit/rgid")
+	public Map<String,String> updateRGID(HttpSession session, @RequestParam("RGID") int RGID){
+		Map<String,String> resultMap = new HashMap<>();
+		int UID = (int) session.getAttribute("UID");
+		int result = userInfoService.updateRGID(UID, RGID);
+		if(result == 1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
+	}
+	
+	@GetMapping("/terms/optionalAgreed")
+	public Map<String,String> optionaltermsUpdate(@RequestParam("UID") int UID, @RequestParam("ifAgreed") boolean ifAgreed){
+		Map<String,String> resultMap = new HashMap<>();
+		int result = userInfoService.optionalTermsSubmit(UID, ifAgreed);
+		if(result == 1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		};
+		return resultMap;
+	};
+	
+	
 	@GetMapping("/reg/emailverify/ifDuplicated")
 	public Map<String,Boolean> ifDuplicated(@RequestParam("email") String email){
 		Boolean result = userInfoService.ifRegisteredEmail(email);
@@ -85,6 +128,21 @@ public class UserInfoRestController {
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
+	}
+
+	@PostMapping("/info/changePW")
+	public Map<String,String> changePW(HttpSession session, @RequestParam("newPassword")String newPassword){
+		Map<String,String> resultMap = new HashMap<>();
+		int UID = (int) session.getAttribute("UID");
+		
+		int result = userInfoService.changePW(UID,newPassword);
+		if(result==1) {
+			resultMap.put("result", "success");
+		} else {
+			resultMap.put("result", "fail");
+		}
+		return resultMap;
 		
 	}
+
 }
