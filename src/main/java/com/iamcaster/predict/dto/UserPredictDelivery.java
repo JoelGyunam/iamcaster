@@ -31,5 +31,7 @@ public class UserPredictDelivery {
 	
 	private String shortForecastAMString;
 	private String shortForecastPMString;
+	private String highUserPredict1;
+	private String highUserPredict2;
 	
 }

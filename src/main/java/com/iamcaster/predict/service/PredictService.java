@@ -3,6 +3,7 @@ package com.iamcaster.predict.service;
 import java.text.DecimalFormat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -255,7 +256,7 @@ public class PredictService {
 						myPredict = predictedNum1 + "°C / " + predictedNum2 + "°C";
 						realNumber = realNum1 + "°C / " + realNum2 + "°C";
 					} else if(weatherType.equals("rain")) {
-						weatherType = "기온 예측 <span class=\"material-icons text-dark f-small\">water_drop</span>";
+						weatherType = "강수 예측 <span class=\"material-icons text-dark f-small\">water_drop</span>";
 						realNumber = realNum1 + "mm";
 						if(predictedNum1==0) {
 							myPredict = "비 안와요!";
@@ -308,21 +309,38 @@ public class PredictService {
 		// 리턴 대상 맵 생성
 		Map<Integer, UserPredictDelivery> predictViewMap = new HashMap<>();
 		
-		//사용자 지역으로 첫 2개 카드(나의 지역 기온/강수) 세팅.
-		for(int i = 1; i <= 2; i++) {
+		//사용자 지역으로 첫 2개 카드(나의 지역 기온/강수) 세팅 및 나머지 4개 카드 더미 데이터 세팅.
+		for(int i = 1; i <= 6; i++) {
 			UserPredictDelivery defaultSetting = new UserPredictDelivery();
-			defaultSetting.setPredictRGID(RGID); //
+			defaultSetting.setPredictRGID(RGID);
 			defaultSetting.setRegionName(regionName);
 			defaultSetting.setPredictOrder(i);
 			String shortForecastAMString = "";
 			String shortForecastPMString = "";
+			String highUserPredictMin = "";
+			String highUserPredictMax = "";
+			String highUserPredictRain = "";
 			if(i == 1) {
 				shortForecastAMString = guideNumber(RGID,"temp","kma").get("AM");
 				shortForecastPMString = guideNumber(RGID,"temp","kma").get("PM");
+				highUserPredictMin = guideNumber(RGID,"temp","highUser").get("min");
+				highUserPredictMax = guideNumber(RGID,"temp","highUser").get("max");
+				defaultSetting.setHighUserPredict1(highUserPredictMin);
+				defaultSetting.setHighUserPredict2(highUserPredictMax);
 				defaultSetting.setWeatherType("temp");
 			} else if(i == 2) {
 				shortForecastAMString = guideNumber(RGID,"rain","kma").get("AM");
 				shortForecastPMString = guideNumber(RGID,"rain","kma").get("PM");
+				highUserPredictRain = guideNumber(RGID,"rain","highUser").get("rain");
+				defaultSetting.setHighUserPredict1(highUserPredictRain);
+				defaultSetting.setWeatherType("rain");
+			} else if(i%2 != 0) {
+				defaultSetting.setPredictRGID(0);
+				defaultSetting.setRegionName(null);
+				defaultSetting.setWeatherType("temp");
+			} else if(i%2 == 0) {
+				defaultSetting.setPredictRGID(0);
+				defaultSetting.setRegionName(null);
 				defaultSetting.setWeatherType("rain");
 			}
 			defaultSetting.setShortForecastAMString(shortForecastAMString);
@@ -353,12 +371,21 @@ public class PredictService {
 				String thisRegionName = userRegionService.getRegionByRGID(predictList.get(j).getPredictRGID()).getRegionName();
 				String shortForecastAMString = "";
 				String shortForecastPMString = "";
+				String highUserPredictMin = "";
+				String highUserPredictMax = "";
+				String highUserPredictRain = "";
 				if(weatherType.equals("temp")) {
 					shortForecastAMString = guideNumber(predictRGID,"temp","kma").get("AM");
 					shortForecastPMString = guideNumber(predictRGID,"temp","kma").get("PM");
+					highUserPredictMin = guideNumber(predictRGID,"temp","highUser").get("min");
+					highUserPredictMax = guideNumber(predictRGID,"temp","highUser").get("max");
+					userPredictDTO.setHighUserPredict1(highUserPredictMin);
+					userPredictDTO.setHighUserPredict2(highUserPredictMax);
 				} else if(weatherType.equals("rain")){
 					shortForecastAMString = guideNumber(predictRGID,"rain","kma").get("AM");
 					shortForecastPMString = guideNumber(predictRGID,"rain","kma").get("PM");
+					highUserPredictRain = guideNumber(predictRGID,"rain","highUser").get("rain");
+					userPredictDTO.setHighUserPredict1(highUserPredictRain);
 				}
 				userPredictDTO.setUPID(UPID);
 				userPredictDTO.setPredictOrder(predictOrder);
@@ -373,8 +400,6 @@ public class PredictService {
 				userPredictDTO.setShortForecastAMString(shortForecastAMString);
 				userPredictDTO.setShortForecastPMString(shortForecastPMString);
 				predictViewMap.put(predictOrder,userPredictDTO);
-				
-				
 				
 				//predictOrder 1,2,4 가 리스트에 담길 경우 3에 대한 처리 혹은 1,2,3 일 떄 4에 대한 처리
 				// 두번째 이상 리스트 순번 이거나, 마지막 순번인 경우, 3 에 대한 처리
@@ -393,13 +418,20 @@ public class PredictService {
 						defaultSetting.setPredictOrder(predictOrderForNull);
 						String shortForecastAMStringForNull = "";
 						String shortForecastPMStringForNull = "";
+						
 						if(predictOrderForNull % 2 != 0) {
 							shortForecastAMStringForNull = guideNumber(RGIDForNull,"temp","kma").get("AM");
 							shortForecastPMStringForNull = guideNumber(RGIDForNull,"temp","kma").get("PM");
+							highUserPredictMin = guideNumber(RGID,"temp","highUser").get("min");
+							highUserPredictMax = guideNumber(RGID,"temp","highUser").get("max");
 							defaultSetting.setWeatherType("temp");
+							defaultSetting.setHighUserPredict1(highUserPredictMin);
+							defaultSetting.setHighUserPredict2(highUserPredictMax);
 						} else if(predictOrderForNull % 2 == 0) {
 							shortForecastAMStringForNull = guideNumber(RGIDForNull,"rain","kma").get("AM");
 							shortForecastPMStringForNull = guideNumber(RGIDForNull,"rain","kma").get("PM");
+							highUserPredictRain = guideNumber(RGID,"rain","highUser").get("rain");
+							defaultSetting.setHighUserPredict1(highUserPredictRain);
 							defaultSetting.setWeatherType("rain");
 						}
 						defaultSetting.setShortForecastAMString(shortForecastAMStringForNull);
@@ -422,11 +454,17 @@ public class PredictService {
 					if(predictOrderForNull % 2 != 0) {
 						shortForecastAMStringForNull = guideNumber(RGIDForNull,"temp","kma").get("AM");
 						shortForecastPMStringForNull = guideNumber(RGIDForNull,"temp","kma").get("PM");
+						highUserPredictMin = guideNumber(RGID,"temp","highUser").get("min");
+						highUserPredictMax = guideNumber(RGID,"temp","highUser").get("max");
 						defaultSetting.setWeatherType("temp");
+						defaultSetting.setHighUserPredict1(highUserPredictMin);
+						defaultSetting.setHighUserPredict2(highUserPredictMax);
 					} else if(predictOrderForNull % 2 == 0) {
 						shortForecastAMStringForNull = guideNumber(RGIDForNull,"rain","kma").get("AM");
 						shortForecastPMStringForNull = guideNumber(RGIDForNull,"rain","kma").get("PM");
+						highUserPredictRain = guideNumber(RGID,"rain","highUser").get("rain");
 						defaultSetting.setWeatherType("rain");
+						defaultSetting.setHighUserPredict1(highUserPredictRain);
 					}
 					defaultSetting.setShortForecastAMString(shortForecastAMStringForNull);
 					defaultSetting.setShortForecastPMString(shortForecastPMStringForNull);
@@ -450,14 +488,23 @@ public class PredictService {
 			defaultSetting.setPredictOrder(i);
 			String shortForecastAMString = "";
 			String shortForecastPMString = "";
+			String highUserPredictMin = "";
+			String highUserPredictMax = "";
+			String highUserPredictRain = "";
 			if(i%2 != 0) {
 				shortForecastAMString = guideNumber(RGID,"temp","kma").get("AM");
 				shortForecastPMString = guideNumber(RGID,"temp","kma").get("PM");
+				highUserPredictMin = guideNumber(RGID,"temp","highUser").get("min");
+				highUserPredictMax = guideNumber(RGID,"temp","highUser").get("max");
 				defaultSetting.setWeatherType("temp");
+				defaultSetting.setHighUserPredict1(highUserPredictMin);
+				defaultSetting.setHighUserPredict2(highUserPredictMax);
 			} else if(i%2 == 0) {
 				shortForecastAMString = guideNumber(RGID,"rain","kma").get("AM");
 				shortForecastPMString = guideNumber(RGID,"rain","kma").get("PM");
+				highUserPredictRain = guideNumber(RGID,"rain","highUser").get("rain");
 				defaultSetting.setWeatherType("rain");
+				defaultSetting.setHighUserPredict1(highUserPredictRain);
 			}
 			defaultSetting.setShortForecastAMString(shortForecastAMString);
 			defaultSetting.setShortForecastPMString(shortForecastPMString);
@@ -478,11 +525,35 @@ public class PredictService {
 			int rainAM = shortForecastService.getShortForecastByRGID(RGID).get(2).getST();
 			int rainPM = shortForecastService.getShortForecastByRGID(RGID).get(3).getST();
 			if(type.equals("temp")) {
+				resultMap.put("ifNull", "notNull");
 				resultMap.put("AM", (tempAM + "℃"));
 				resultMap.put("PM", (tempPM + "℃"));
 			} else if(type.equals("rain")) {
+				resultMap.put("ifNull", "notNull");
 				resultMap.put("AM", (rainAM + "%"));
 				resultMap.put("PM", (rainPM + "%"));
+			}
+		} else if(source.equals("highUser")) {
+			Integer highestUID = getHighestUser(RGID, type);
+			if(highestUID == null) {
+				resultMap.put("ifNull", "null");
+			} else {
+				UserPredict userPredict = new UserPredict();
+				userPredict.setUID(highestUID);
+				userPredict.setWeatherType(type);
+				userPredict.setPredictRGID(RGID);
+				
+				userPredict = predictRepository.selectTodayPredictByUIDandWeatherType(userPredict);
+				if(userPredict != null) {
+					if(type.equals("temp")) {
+						resultMap.put("ifNull", "notNull");
+						resultMap.put("min", (userPredict.getPredictedNum1() + "℃"));
+						resultMap.put("max", (userPredict.getPredictedNum2() + "℃"));
+					} else if(type.equals("rain")) {
+						resultMap.put("ifNull", "notNull");
+						resultMap.put("rain", (userPredict.getPredictedNum1() + "mm"));
+					}
+				}
 			}
 		}
 		return resultMap;
@@ -658,4 +729,38 @@ public class PredictService {
 		return resultMap;
 	}
 	
+	//오늘 해당 지역에 응답한 유저 리스트 > getScoreNumbers 로 예측 정확도로 정렬 > 50% 이상의 예측정확도 높은 유저 픽
+	public Integer getHighestUser(int RGID, String weatherType) {
+		//지역아이디와 예측 종류에 따라 해당 일자에 응답한 유저응답정보리스트 불러오기
+		List<UserPredict> predictList= predictRepository.selectTodayPredictByRGIDandWeatherType(RGID, weatherType);
+		if(predictList.size()==0 || predictList.isEmpty()) {
+			return null;
+		} else {
+			List<PredictRank> rankList = new ArrayList<>();
+			for(UserPredict each : predictList) {
+				int eachUID = each.getUID();
+				Map<String,Integer> scoreMap = getScoreNumbers(eachUID);
+				
+				double accuracy = 0;
+				
+				if(weatherType.equals("temp")) {
+					int tempRight = scoreMap.get("tempPredictRight");
+					int tempWrong = scoreMap.get("tempPredictWrong");
+					accuracy = (double)tempRight / (double)(tempRight+tempWrong);
+				} else if(weatherType.equals("rain")) {
+					int rainRight = scoreMap.get("rainPredictRight");
+					int rainWrong = scoreMap.get("rainPredictWrong");
+					accuracy = (double)rainRight / (double)(rainRight+rainWrong);
+				}
+				
+				PredictRank toRank = new PredictRank();
+				toRank.setUID(eachUID);
+				toRank.setAccuracy(accuracy);
+				rankList.add(toRank);
+			}
+			rankList.sort((compare1,compare2) -> Double.compare(compare2.getAccuracy(), compare1.getAccuracy()));
+			int highestUID = rankList.get(0).getUID();
+			return highestUID;
+		}
+	}
 }

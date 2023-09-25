@@ -21,4 +21,6 @@ public interface PredictRepository {
 	public List<UserPredict> selectAllPredictByUID(UserPredict userPredict);
 	public List<PredictRank> predictResultGroupByUID(@Param(value="predictRGID") Integer RGID);
 	public List<RankRegion> predictResultGroupByRGID();
+	public List<UserPredict> selectTodayPredictByRGIDandWeatherType(@Param("RGID")int RGID,@Param("weatherType")String weatherType );
+	public UserPredict selectTodayPredictByUIDandWeatherType(UserPredict userPredict);
 }

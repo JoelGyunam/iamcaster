@@ -8,11 +8,13 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iamcaster.predict.dto.UserPredictDelivery;
 import com.iamcaster.predict.service.PredictService;
 
 @RestController
@@ -68,5 +70,12 @@ public class PredictRestController {
 	@GetMapping("/tobescored")
 	public Map<Integer,Set<Integer>> tobescored(){
 		return predictService.toBeScoredList();
+	}
+	
+	@GetMapping("/addCard")
+	public Map<Integer, UserPredictDelivery> addCard(@RequestParam("RGID") int RGID,@RequestParam("order") int order, Model model) {
+		
+		return predictService.newCards(RGID, order);
+		
 	}
 }

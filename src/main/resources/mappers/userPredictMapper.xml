@@ -159,5 +159,47 @@
 			`scored` = 0
 		GROUP BY predictRGID;
 	</select>
+	
+	<select id="selectTodayPredictByRGIDandWeatherType" parameterType="map" resultType="com.iamcaster.predict.domain.UserPredict">
+        SELECT
+			`UPID`
+			,`predictOrder`
+			,`UID`
+			,`predictRGID`
+			,`weatherType`
+			,`predictedNum1`
+			,`predictedNum2`
+			,`realNum1`
+			,`realNum2`
+			,`result`
+			,`scored`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`userpredict`
+		WHERE
+			`predictRGID` = #{RGID} AND `weatherType` = #{weatherType} AND DATE(`createdAt`) = DATE(NOW())
+	</select>
+	
+	<select id="selectTodayPredictByUIDandWeatherType" parameterType="com.iamcaster.predict.domain.UserPredict" resultType="com.iamcaster.predict.domain.UserPredict">
+        SELECT
+			`UPID`
+			,`predictOrder`
+			,`UID`
+			,`predictRGID`
+			,`weatherType`
+			,`predictedNum1`
+			,`predictedNum2`
+			,`realNum1`
+			,`realNum2`
+			,`result`
+			,`scored`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`userpredict`
+		WHERE
+			`UID` = #{UID} AND `predictRGID` = #{predictRGID} AND `weatherType` = #{weatherType} AND DATE(`createdAt`) = DATE(NOW())
+	</select>
  	
  </mapper>

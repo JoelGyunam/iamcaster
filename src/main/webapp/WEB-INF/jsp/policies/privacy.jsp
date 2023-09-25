@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="/static/css/style.css" type="text/css">
 </head>
 <body>
-	<div id="wrap">
+	<div id="wrap" class="f-xsmall">
 	
-	<h5 class="text-center mt-3">나도 캐스터 개인정보 처리방침</h5>
+	<h5 class="text-center font-weight-bold mt-3">나도 캐스터 개인정보 처리방침</h5><hr>
 	
 	  <p class="c2 c8">
 	    <span class="c5 c17"></span>

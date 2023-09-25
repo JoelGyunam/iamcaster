@@ -48,15 +48,19 @@
 					<div class="mx-1">오후</div>
 					<div id="shortRainPM" class="shortAM">${predictTemp.shortForecastPMString }</div>
 				</div>
+				<c:choose>
+				<c:when test="${empty predictTemp.highUserPredict1}">
+				</c:when>
+				<c:otherwise>
 				<div class="mx-2 mt-3 d-flex align-items-center f-small justify-content-center text-white bg-success rounded">
 					<div class="mr-1 font-weight-bold">Tip. 높은 적중률 사용자의 예측</div>
 					<div class="mr-1">최고</div>
-					<div>36.5</div>
-					<div>°C</div>
+					<div>${predictTemp.highUserPredict1 }</div>
 					<div class="mx-1">최저</div>
-					<div>36.5</div>
-					<div>°C</div>
+					<div>${predictTemp.highUserPredict2 }</div>
 				</div>
+				</c:otherwise>
+				</c:choose>
 				
 				<div class="d-flex flex-column mx-5 my-3">
 					<c:choose>
@@ -125,12 +129,17 @@
 					<div class="mx-1">오후 강수확률</div>
 					<div id="shortRainPM" class="shortPM">${predictRain.shortForecastPMString }</div>
 				</div>
+				<c:choose>
+				<c:when test="${empty predictTemp.highUserPredict1}">
+				</c:when>
+				<c:otherwise>
 				<div class="mx-2 mt-3 d-flex align-items-center f-small justify-content-center text-white bg-success rounded">
 					<div class="mr-1 font-weight-bold">Tip. 높은 적중률 사용자의 예측</div>
-					<div class="mr-1">강수확률</div>
-					<div>36.5</div>
-					<div>%</div>
+					<div class="mr-1">강수량</div>
+					<div>${predictTemp.highUserPredict1 }</div>
 				</div>
+				</c:otherwise>
+				</c:choose>
 				<div class="d-flex flex-column mx-5 my-3">
 					<c:choose>
 						<c:when test="${predictRain.createdAt == null}">

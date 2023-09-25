@@ -1,5 +1,6 @@
 package com.iamcaster.predict.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -31,23 +32,15 @@ public class PredictController {
 		int UID = (int) session.getAttribute("UID");
 		model.addAttribute("regionList",userRegionService.getAllRegionList());
 		
-		Map<Integer, UserPredictDelivery> predictViewMap = predictService.getTodayPredictByUID(UID);
+		Map<Integer, UserPredictDelivery> predictViewList = predictService.getTodayPredictByUID(UID);
 		
-		if(predictViewMap!=null) {
-			model.addAttribute("predictedMap",predictViewMap);
+		if(predictViewList!=null) {
+			model.addAttribute("predictedMap",predictViewList);
 		};
 		
 		return "service/predict/predict";
 	}
 	
-	@GetMapping("/addCard")
-	public String addCard(@RequestParam("RGID") int RGID,@RequestParam("order") int order, Model model) {
-		
-		model.addAttribute("predictedMap",predictService.newCards(RGID, order));
-		
-		return "service/predict/predict-card";
-
-	}
 	
 	@GetMapping("/1")
 	@ResponseBody
