@@ -60,6 +60,7 @@
 			,createdAt
 			,updatedAt
 			,optionalTerms
+			,ifKakao
  		FROM `userInfo`
  		WHERE `UID` = #{UID}
  	</select>
@@ -69,6 +70,7 @@
  		INSERT INTO `userInfo`
  			(
 			email
+			,ifKakao
 			,password
 			,salt
 			,NickID
@@ -82,6 +84,7 @@
 		VALUE
 			(
 			#{email}
+			,#{ifKakao}
 			,#{password}
 			,#{salt}
 			,#{NickID}
@@ -116,6 +119,12 @@
  	<update id="withdrawalUpdate" parameterType="com.iamcaster.user.domain.UserInfo">
  		UPDATE `userInfo`
  		SET `email` = #{email}, `updatedAt` = NOW()
+ 		WHERE UID = #{UID}
+ 	</update>
+ 	
+ 	<update id="updateKakaoInfo" parameterType="com.iamcaster.user.domain.UserInfo">
+ 		UPDATE `userinfo`
+ 		SET `ifKakao` = #{ifKakao}, `updatedAt` = NOW()
  		WHERE UID = #{UID}
  	</update>
  

@@ -25,6 +25,19 @@ public class UserInfoService {
 	private UserRegionService userRegionService;
 	@Autowired
 	private UserNicknameService userNicknameService;
+	
+	public UserInfo kakaoIntegration(String email) {
+		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail(email);
+		if(userList.size()==0) {
+			return null;
+		} else {
+			UserInfo userInfo = userList.get(0);
+			userInfo.setIfKakao(true);
+			userInfoRepository.updateKakaoInfo(userInfo);
+			return userInfo;
+		}
+	}
+	
 
 	public String withdrawal(int UID) {
 		UserInfo userInfo = new UserInfo();
@@ -100,12 +113,14 @@ public class UserInfoService {
 		} else return true;
 	}
 	
-	public UserInfo registration(String email, String password, int NickID, int RGID, boolean ifOptionalTermsAgreed) {
+	public UserInfo registration(String email, String password, int NickID, int RGID, boolean ifOptionalTermsAgreed, boolean ifKakao) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setEmail(email);
+		userInfo.setIfKakao(false);
 		userInfo.setNickID(NickID);
 		userInfo.setRGID(RGID);
 		userInfo.setIfOptionalTermsAgreed(ifOptionalTermsAgreed);
+		userInfo.setIfKakao(ifKakao);
 		
 		String salt = Encrypt.getSalt();
 		String encPassword =Encrypt.getEncrypt(password, salt);

@@ -20,4 +20,5 @@ public interface UserInfoRepository {
 	public int updateNickID(UserInfo userInfo);
 	public int updateRGID(UserInfo userInfo);
 	public int withdrawalUpdate(UserInfo userInfo);
+	public int updateKakaoInfo(UserInfo userInfo);
 }

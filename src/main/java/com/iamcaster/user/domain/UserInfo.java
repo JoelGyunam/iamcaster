@@ -19,5 +19,6 @@ public class UserInfo {
 	private ZonedDateTime optionalTerms;
 	private ZonedDateTime createdAt;
 	private ZonedDateTime updatedAt;
+	private boolean ifKakao;
 	
 }

@@ -84,11 +84,12 @@ public class UserInfoRestController {
 			,@RequestParam("NickID") int NickID
 			,@RequestParam("RGID") int RGID
 			,@RequestParam("optionalTerms") boolean ifOptionalTermsAgreed
+			,@RequestParam(value="ifKakao", required=false) boolean ifkakao
 			,HttpSession session
 			){
 		Map<String,String> resultMap = new HashMap<>();
 		UserInfo userInfo = new UserInfo();
-		userInfo = userInfoService.registration(email, password, NickID, RGID, ifOptionalTermsAgreed);
+		userInfo = userInfoService.registration(email, password, NickID, RGID, ifOptionalTermsAgreed, ifkakao);
 		if(userInfo != null) {
 			resultMap.put("result", "success");
 			int UID = userInfo.getUID();

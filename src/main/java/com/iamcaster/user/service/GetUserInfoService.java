@@ -40,6 +40,7 @@ public class GetUserInfoService {
 			overral.setCreatedAt(userInfo.getCreatedAt());
 			overral.setUpdatedAt(userInfo.getUpdatedAt());
 			overral.setOptionalTerms(userInfo.getOptionalTerms());
+			overral.setIfKakao(userInfo.isIfKakao());
 			
 			int sumPredict = predictService.getScoreNumbers(UID).get("tempPredictRight")
 					+ predictService.getScoreNumbers(UID).get("tempPredictWrong")
@@ -50,8 +51,12 @@ public class GetUserInfoService {
 					+ predictService.getScoreNumbers(UID).get("rainPredictRight");
 			
 			double accuracyRate = ((double)writeNumber/sumPredict)*100.0;
-			DecimalFormat df = new DecimalFormat("0.##");
-			overral.setAccuracyRate(df.format(accuracyRate));
+			if(Double.isNaN(accuracyRate)) {
+				overral.setAccuracyRate("아직 예측 정보가 없어요!");
+			} else {
+				DecimalFormat df = new DecimalFormat("0.##");
+				overral.setAccuracyRate(df.format(accuracyRate)+"%");
+			}
 		}
 		return overral;
 	}

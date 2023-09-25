@@ -17,6 +17,7 @@ public class UserInfoOverral {
 	private int RGID;
 	private ZonedDateTime createdAt;
 	private ZonedDateTime updatedAt;
+	private boolean ifKakao;
 	
 	private String Nickname;
 	private String regionName;
