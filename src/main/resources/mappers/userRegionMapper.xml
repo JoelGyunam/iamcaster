@@ -13,8 +13,8 @@
  			, A.REG_NAME AS regionName
  			, B.LAT AS lat
  			, B.LON as lon
-		FROM sfcregion AS A
-		INNER JOIN obvregion AS B
+		FROM SFCRegion AS A
+		INNER JOIN OBVRegion AS B
 		ON A.REG_ID = B.FCT_ID;
  	
  	</select>

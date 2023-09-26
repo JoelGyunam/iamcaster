@@ -321,7 +321,7 @@
 				}
 
 				$("#alphaNotiModalSubmitBtn").on("click",function() {
-					location.href = "https://kauth.kakao.com/oauth/authorize?client_id=c549a77834b5765bcedd1aedb20e046c&redirect_uri=http://localhost:8080/Oauth/authorize/callback&response_type=code";
+					location.href = "https://kauth.kakao.com/oauth/authorize?client_id=c549a77834b5765bcedd1aedb20e046c&redirect_uri="+window.location.origin+"/Oauth/authorize/callback&response_type=code";
 				});
 
 				$("#passwordInput").keydown(function(e) {
