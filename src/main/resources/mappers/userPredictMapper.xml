@@ -20,13 +20,13 @@
 			,`scored`
 			,`createdAt`
 			,`updatedAt`
-		FROM `userpredict`
+		FROM `userPredict`
 		WHERE `UID` = #{UID} AND DATE(`createdAt`) = CURDATE()
 		ORDER BY `predictOrder` ASC;
  	</select>
  
  	<insert id="insertPredict" parameterType="com.iamcaster.predict.domain.UserPredict">
- 	INSERT INTO `userpredict`
+ 	INSERT INTO `userPredict`
  		(
  		`predictOrder`
  		,`UID`
@@ -48,7 +48,7 @@
  
  	<update id="updatePredict" parameterType="com.iamcaster.predict.domain.UserPredict">
  	
- 	UPDATE `userpredict`
+ 	UPDATE `userPredict`
  	SET
  	 `predictedNum1`= #{predictedNum1}
  	 ,`predictedNum2`= #{predictedNum2}
@@ -73,7 +73,7 @@
 			,`scored`
 			,`createdAt`
 			,`updatedAt`
-		FROM `userpredict`
+		FROM `userPredict`
 		WHERE
 			`scored` = 1 AND DATE(`createdAt`) <![CDATA[<=]]> DATE_SUB(CURDATE(), INTERVAL 2 DAY)
  	</select>
@@ -93,13 +93,13 @@
 			,`scored`
 			,`createdAt`
 			,`updatedAt`
-		FROM `userpredict`
+		FROM `userPredict`
 		WHERE
 			DATE(`createdAt`) = #{createdDate} AND `predictRGID` = #{predictRGID}
  	</select>
 
  	<update id="updateAnswerByUPID" parameterType="com.iamcaster.predict.domain.UserPredict">
- 		UPDATE `userpredict`
+ 		UPDATE `userPredict`
  			SET
  			`realNum1` = #{realNum1}
 			,`realNum2` = #{realNum2}
@@ -125,7 +125,7 @@
 			,`scored`
 			,`createdAt`
 			,`updatedAt`
-		FROM `userpredict`
+		FROM `userPredict`
 		WHERE
 			`UID` = #{UID}
 		ORDER BY `createdAt` DESC
@@ -134,7 +134,7 @@
 	<select id="predictResultGroupByUID" parameterType="Integer" resultType="com.iamcaster.predict.dto.PredictRank">
 	    SELECT
 			`UID`,sum(`result`="정확") AS `correct`,sum(`result`="오보") AS `wrong`
-		FROM `userpredict`
+		FROM `userPredict`
 		WHERE
 			`scored` = 0
 		<choose>
@@ -154,7 +154,7 @@
             ,sum(`result`="오보"  AND `weatherType`='temp' ) AS `tempWrong`
             ,sum(`result`="정확" AND `weatherType`='rain') AS `rainCorrect`
             ,sum(`result`="오보"  AND `weatherType`='rain' ) AS `rainWrong`
-		FROM `userpredict`
+		FROM `userPredict`
 		WHERE
 			`scored` = 0
 		GROUP BY predictRGID;
@@ -176,7 +176,7 @@
 			,`createdAt`
 			,`updatedAt`
 		FROM
-			`userpredict`
+			`userPredict`
 		WHERE
 			`predictRGID` = #{RGID} AND `weatherType` = #{weatherType} AND DATE(`createdAt`) = DATE(NOW())
 	</select>
@@ -197,7 +197,7 @@
 			,`createdAt`
 			,`updatedAt`
 		FROM
-			`userpredict`
+			`userPredict`
 		WHERE
 			`UID` = #{UID} AND `predictRGID` = #{predictRGID} AND `weatherType` = #{weatherType} AND DATE(`createdAt`) = DATE(NOW())
 	</select>

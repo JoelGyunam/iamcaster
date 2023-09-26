@@ -123,7 +123,7 @@
  	</update>
  	
  	<update id="updateKakaoInfo" parameterType="com.iamcaster.user.domain.UserInfo">
- 		UPDATE `userinfo`
+ 		UPDATE `userInfo`
  		SET `ifKakao` = #{ifKakao}, `updatedAt` = NOW()
  		WHERE UID = #{UID}
  	</update>

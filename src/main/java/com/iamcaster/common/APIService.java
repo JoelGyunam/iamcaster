@@ -66,7 +66,7 @@ public class APIService {
 		MultiValueMap<String,String> map = new LinkedMultiValueMap<>();
 		map.add("grant_type", "authorization_code");
 		map.add("client_id", "c549a77834b5765bcedd1aedb20e046c");
-		map.add("redirect_uri", "http://localhost:8080/Oauth/authorize/callback");
+		map.add("redirect_uri", VersionType.versionType()+"/Oauth/authorize/callback");
 		map.add("code", code);
 		
 		HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(map,headers);

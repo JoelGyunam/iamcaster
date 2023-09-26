@@ -7,12 +7,12 @@
  
 	<select id="countByFCT_ID">
 		SELECT COUNT(1)
-		FROM `obvregion`
+		FROM `OBVRegion`
 		WHERE `FCT_ID`=#{FCT_ID}
 	</select>
 	
 	<insert id="insertOBVRegion" parameterType="com.iamcaster.regional.kma.obvregion.domain.OBVRegion">
-		INSERT INTO `obvregion`
+		INSERT INTO `OBVRegion`
 			(
 			`STN_ID`
 			,`LON`

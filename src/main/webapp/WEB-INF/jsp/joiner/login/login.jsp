@@ -138,9 +138,9 @@
 						<h4 class="text-center">카카오 간편회원가입</h4>
 						<hr>
 						<div>
-							<div class="m-1 text-dark text-center">현재는 개인이 제공하는 알파서비스인 관계로, 제한된 인원만 카카오로그인을 이용할 수 있습니다.</div>
-							<div class="m-1 text-dark text-center">카카오 로그인을 경험하고 싶으신 분은 </div>
-							<div class="m-1 text-dark text-center">아래 메일로 카카오계정을 공유해 주시면 테스터 등록을 해드리겠습니다.</div>
+							<p class="m-1 text-dark text-center">현재는 개인이 제공하는 알파서비스이며,<br> 제한된 인원만 카카오로그인을 이용할 수 있습니다.</p>
+							<p class="m-1 text-dark text-center">아래 메일로 카카오계정을 공유해 주시면<br> 테스터 등록을 해드리겠습니다.</p>
+							<div class="f-small text-center">(gynpark@gmail.com)</div>
 							<div class="m-1 font-weight-bold text-dark text-center">이미 테스터로 등록되어 있다면, 시작하기를 눌러주세요.</div>
 						</div>
 					</div>
@@ -321,7 +321,7 @@
 				}
 
 				$("#alphaNotiModalSubmitBtn").on("click",function() {
-					location.href = "https://kauth.kakao.com/oauth/authorize?client_id=c549a77834b5765bcedd1aedb20e046c&redirect_uri=http://localhost:8080/Oauth/authorize/callback&response_type=code";
+					location.href = "https://kauth.kakao.com/oauth/authorize?client_id=c549a77834b5765bcedd1aedb20e046c&redirect_uri="+window.location.origin+"/Oauth/authorize/callback&response_type=code";
 				});
 
 				$("#passwordInput").keydown(function(e) {

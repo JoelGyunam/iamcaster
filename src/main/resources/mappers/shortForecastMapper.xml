@@ -21,7 +21,7 @@
 			,`createdAt`
 			,`createdDate`
 			,`updatedAt`
-		FROM `shortforecast`
+		FROM `shortForecast`
 		WHERE
 			`REG_ID` = #{REG_ID} AND `createdDate` = DATE(now())
 		ORDER BY `NE` ASC;
@@ -29,7 +29,7 @@
  	</select>
  
  	<insert id="upsertShortForecastList" parameterType="java.util.List">
- 		INSERT INTO `shortforecast`
+ 		INSERT INTO `shortForecast`
  			(
 				`REG_ID`
 				,`TM_FC`

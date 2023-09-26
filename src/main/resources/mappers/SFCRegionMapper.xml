@@ -7,11 +7,11 @@
  
  	<select id="countByReg_ID" parameterType="String" resultType="int">
  		SELECT count(1) 
- 		FROM `sfcregion` WHERE `REG_ID` = #{REG_ID};
+ 		FROM `SFCRegion` WHERE `REG_ID` = #{REG_ID};
  	</select>
  
  	<insert id="insertSFCRegion" parameterType="com.iamcaster.regional.kma.sfcregion.domain.SFCRegion">
- 		INSERT INTO `sfcregion`
+ 		INSERT INTO `SFCRegion`
  			(
 			`REG_ID`
 			,`TM_ST`
