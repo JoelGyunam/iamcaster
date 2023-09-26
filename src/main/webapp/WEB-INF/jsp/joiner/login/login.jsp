@@ -79,7 +79,7 @@
 
 		<%-- 모달 스크립트 시작 --%>
 		<!-- Button trigger modal -->
-		<button id="kakaoRegiBtn" type="button" class="btn btn-primary"
+		<button id="kakaoRegiBtn" type="button" class="btn btn-primary d-none" 
 			data-toggle="modal" data-target="#kakaoRegiModal">Launch
 			demo modal</button>
 
@@ -96,7 +96,7 @@
 							<input id="nicknameInput" type="text" class="form-control">
 							<div class="m-1 text-secondary">한글, 영문, 숫자를 최대 16자까지 입력할 수
 								있어요.</div>
-							<div id="duplicatedNicknameNoti" class="m-1 text-danger">이미 사용중인 캐스터이름 이에요.</div>
+							<div id="duplicatedNicknameNoti" class="m-1 text-danger">사용할수 없는 캐스터이름 이에요.</div>
 							<div id="nicknameConfirmedNoti" class="ml-3 f-content text-success">사용 가능한 캐스터 이름이에요.</div>
 						</div>
 						<hr>
@@ -114,6 +114,38 @@
 					</div>
 					<div class="modal-footer d-flex justify-content-center">
 						<button id="kakaoRegSubmitBtn" type="button"
+							class="btn btn-primary">시작하기</button>
+						<button id="closeNicknameModalBtn" type="button"
+							class="btn btn-secondary" data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<%-- 모달 스크립트 끝--%>
+
+		<%-- 모달 스크립트 시작 --%>
+		<!-- Button trigger modal -->
+		<button id="alphaNotiBtn" type="button" class="btn btn-primary d-none" 
+			data-toggle="modal" data-target="#alphaNotiModal">Launch
+			demo modal</button>
+
+		<!-- Modal -->
+		<div class="modal fade px-5" id="alphaNotiModal" tabindex="-1"
+			aria-labelledby="kakaoRegiModal" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body f-content">
+						<h4 class="text-center">카카오 간편회원가입</h4>
+						<hr>
+						<div>
+							<div class="m-1 text-dark text-center">현재는 개인이 제공하는 알파서비스인 관계로, 제한된 인원만 카카오로그인을 이용할 수 있습니다.</div>
+							<div class="m-1 text-dark text-center">카카오 로그인을 경험하고 싶으신 분은 </div>
+							<div class="m-1 text-dark text-center">아래 메일로 카카오계정을 공유해 주시면 테스터 등록을 해드리겠습니다.</div>
+							<div class="m-1 font-weight-bold text-dark text-center">이미 테스터로 등록되어 있다면, 시작하기를 눌러주세요.</div>
+						</div>
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<button id="alphaNotiModalSubmitBtn" type="button"
 							class="btn btn-primary">시작하기</button>
 						<button id="closeNicknameModalBtn" type="button"
 							class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -176,6 +208,9 @@
 				location.href = "/main/predict";
 			};
 			
+			$("#kakaoLoginBtn").on("click", function(){
+				$("#alphaNotiBtn").click();
+			});
 			
 			
 			$("#duplicatedNicknameNoti").hide();
@@ -285,7 +320,7 @@
 					kakaoEmail = "${kakaoResult.email}";
 				}
 
-				$("#kakaoLoginBtn").on("click",function() {
+				$("#alphaNotiModalSubmitBtn").on("click",function() {
 					location.href = "https://kauth.kakao.com/oauth/authorize?client_id=c549a77834b5765bcedd1aedb20e046c&redirect_uri=http://localhost:8080/Oauth/authorize/callback&response_type=code";
 				});
 

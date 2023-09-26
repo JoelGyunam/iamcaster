@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.iamcaster.predict.controller.PredictController;
 import com.iamcaster.regional.userregion.service.UserRegionService;
 
 @Controller
@@ -17,7 +18,18 @@ public class UserInfoController {
 
 	@Autowired
 	private UserRegionService userRegionService;
+	@Autowired
+	private PredictController predictController;
 
+	@GetMapping()
+	public String intro(HttpSession session, Model model) {
+		Integer UID = (Integer)session.getAttribute("UID");
+		if(UID == null) {
+			return greetingView();
+		} else
+			return predictController.predictView(session, model);
+	}
+	
 	@GetMapping("/greeting")
 	public String greetingView() {
 		return "joiner/greeting/greeting";
