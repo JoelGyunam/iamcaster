@@ -43,6 +43,10 @@ public class SFCRegionService {
 		return resultString;
     }
     
+    public List<SFCRegion> selectAll(){
+    	return sfcRegionRepository.selectAll();
+    }
+    
     public List<SFCRegion> parseData(String data) {
         List<SFCRegion> sfcRegionList = new ArrayList<>();
         String[] lines = data.split("\n");

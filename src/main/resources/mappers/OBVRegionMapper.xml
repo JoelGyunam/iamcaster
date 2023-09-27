@@ -31,5 +31,19 @@
 			,#{LAW_ID}
 			)
 	</insert>
+	
+	<select id="selectAll" parameterType="com.iamcaster.regional.kma.obvregion.domain.OBVRegion">
+		SELECT
+			`OBVRegionID`
+			,`STN_ID`
+			,`LON`
+			,`LAT`
+			,`STN_KO`
+			,`FCT_ID`
+			,`LAW_ID`
+			,`createdAt`
+			,`updatedAt`
+		FROM `OBVRegion`;
+	</select>
  
  </mapper>

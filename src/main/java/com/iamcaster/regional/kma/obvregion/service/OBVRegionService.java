@@ -18,6 +18,9 @@ public class OBVRegionService {
 	@Autowired
 	private OBVRegionRepository obvRegionRepository;
 	
+	public List<OBVRegion> selectAll(){
+		return obvRegionRepository.selectAll();
+	}
 	
 	public List<OBVRegion> getOBVRegionList(){
 		String resultString = webClientForKMA.fetchAndToString("/api/typ01/url/stn_inf.php?inf=SFC&stn=&tm=202211300900&help=1&authKey=8HXVgof0RqS11YKH9EakVA");
