@@ -32,7 +32,7 @@ public class UserInfoController {
 	
 	@GetMapping("/greeting")
 	public String greetingView() {
-		userRegionService.getMergedRegionalData();
+		userRegionService.refreshUserRegionList();
 		return "joiner/greeting/greeting";
 	}
 
