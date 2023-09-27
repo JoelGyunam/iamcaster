@@ -29,5 +29,18 @@
  			)
  	</insert>
  	
+ 	<select id="selectAll">
+ 		SELECT
+ 			`SFCRegionID`
+			,`REG_ID`
+			,`TM_ST`
+			,`TM_ED`
+			,`REG_SP`
+			,`REG_NAME`
+			,`createdAt`
+			,`updatedAt`
+		FROM `SFCRegion`
+ 	</select>
+ 	
 
  </mapper>

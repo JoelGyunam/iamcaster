@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iamcaster.regional.kma.obvregion.domain.OBVRegion;
+import com.iamcaster.regional.kma.obvregion.service.OBVRegionService;
+import com.iamcaster.regional.kma.sfcregion.domain.SFCRegion;
+import com.iamcaster.regional.kma.sfcregion.service.SFCRegionService;
 import com.iamcaster.regional.userregion.domain.UserRegion;
 import com.iamcaster.regional.userregion.repository.UserRegionRepository;
 
@@ -13,8 +17,24 @@ public class UserRegionService {
 
 	@Autowired
 	private UserRegionRepository userRegionRepository;
+	@Autowired
+	private OBVRegionService obvRegionService;
+	@Autowired
+	private SFCRegionService sfcRegionService;
 	
 	public List<UserRegion> getMergedRegionalData(){
+		
+		List<OBVRegion> obvRegionList = obvRegionService.selectAll();
+		List<SFCRegion> sfcRegionList = sfcRegionService.selectAll();
+		
+		if(obvRegionList.size()==0) {
+			obvRegionService.refreshOBVRegionList();
+		};
+		
+		if(sfcRegionList.size()==0) {
+			sfcRegionService.refreshSFCRegionList();
+		};
+		
 		return userRegionRepository.innerJoinSFCRegionAndOBVRegion();
 	}
 	
