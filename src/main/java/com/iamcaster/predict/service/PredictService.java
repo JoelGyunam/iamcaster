@@ -49,6 +49,12 @@ public class PredictService {
 	public List<RankRegion> getPredictRankByRGID(){
 		// 지역ID 로 groupby 된 지역 별 기온 정/오답, 강수 정/오답 정보 select
 		List<RankRegion> regionRankList = predictRepository.predictResultGroupByRGID();
+		
+		if(regionRankList.size()==0) {
+			return regionRankList;
+		} 
+		
+		else
 		regionRankList = regionRankList.stream().map(eachRank -> {
 //            { "RGID" : 1, "regionRank": 1, "regionName": '대전', "lat": 36.37199, "lng": 127.3721, "regionTotal": 30, "regionTempChance": 10, "regionRainChance": 20 },
 //            { "RGID": 2, "regionRank": 2, "regionName": '대구', "lat": 35.87797, "lng": 128.65296, "regionTotal": 70, "regionTempChance": 80, "regionRainChance": 40 }
