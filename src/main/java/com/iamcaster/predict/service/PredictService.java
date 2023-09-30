@@ -717,9 +717,9 @@ public class PredictService {
 								}
 						} else if(eachPredict.getWeatherType().equals("rain")) {
 							if(eachPredict.getResult().equals("정확")) {
-								tempRight ++;
+								rainRight ++;
 								} else if(eachPredict.getResult().equals("오보")) {
-									tempWrong++;
+									rainWrong++;
 									}
 					}
 				} else {

@@ -22,11 +22,11 @@
 <body>
 	<div id="wrap">
 
-		<section id="content" class="container border-top f-content">
+		<section id="content" class="border-top f-content">
 			<div style="height: 5px"></div>
 			<div>
 				<h3 class="text-right m-3 font-weight-bold" onclick="history.back()">x</h3>
-				<div class="ml-2">
+				<div class="ml-3">
 					<span class="font-weight-bold">${userinfo.nickname }</span> 님,<br>오늘
 					날씨는 어떤가요?
 				</div>
@@ -35,14 +35,13 @@
 			<div class="card my-2">
 				<div class="mt-3 ml-3 font-weight-bold">나의 정보</div>
 				<div class="d-flex align-items-center m-1 ml-3">
-					<div class="font-weight-bold col-4">캐스터 이름</div>
+					<div class="font-weight-bold ml-1">캐스터 이름</div>
 					<div class="col-5">${userinfo.nickname }</div>
-					<button id="changeNicknameBtn"
-						class="btn btn-dark text-white btn-sm">변경 하기</button>
+					<button id="changeNicknameBtn" class="btn btn-dark text-white btn-sm ml-auto mr-1">변경 하기</button>
 				</div>
 				<div class="d-flex align-items-center m-1 ml-3">
-					<div class="font-weight-bold col-4">계정 이메일</div>
-					<div class="col-5">
+					<div class="font-weight-bold ml-1">계정 이메일</div>
+					<div class="ml-2">
 						<c:choose>
 						<c:when test="${userinfo.ifKakao }">
 						<img width="30px" src="https://t1.kakaocdn.net/kakaocorp/kakaocorp/admin/5f9c58c2017800001.png">
@@ -52,12 +51,12 @@
 					</div>
 				</div>
 				<div class="d-flex align-items-center m-1 ml-3">
-					<div class="font-weight-bold col-4">나의 지역</div>
+					<div class="font-weight-bold ml-1">나의 지역</div>
 					<div class="col-5">${userinfo.regionName }</div>
-					<button id="changeRegionBtn" class="btn btn-dark text-white btn-sm">지역변경</button>
+					<button id="changeRegionBtn" class="btn btn-dark text-white btn-sm ml-auto mr-1">지역변경</button>
 				</div>
 				<div class="d-flex align-items-center m-1 ml-3 mb-3">
-					<div class="font-weight-bold col-4">나의 적중률</div>
+					<div class="font-weight-bold ml-1">나의 적중률</div>
 					<div class="col-5">${userinfo.accuracyRate }</div>
 				</div>
 			</div>

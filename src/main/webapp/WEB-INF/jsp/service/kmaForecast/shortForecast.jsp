@@ -19,10 +19,10 @@
 	<div id="wrap">
 		<jsp:include page="/WEB-INF/jsp/global/header.jsp"/>
 		
-		<section id="content" class="container border-top">
-			<div style="height:5px"></div>
+		<section id="content" class="border-top">
+			<div style="height:10px"></div>
 
-			<div class="d-flex container ml-2 align-items-center mt-2">
+			<div class="d-flex ml-2 align-items-center mt-2">
 				<div class="bg-primary text-white f-small px-3 rounded">안내</div>
 				<div class=" f-small ml-3 d-flex align-items-center font-weight-bold">기상청에서 제공받은 단기예보 정보입니다.</div>
 			</div>

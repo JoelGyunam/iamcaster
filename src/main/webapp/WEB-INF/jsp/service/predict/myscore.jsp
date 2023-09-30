@@ -18,9 +18,9 @@
 	<div id="wrap">
 		<jsp:include page="/WEB-INF/jsp/global/header.jsp"/>
 		
-		<section id="content" class="container border-top">
-			<div style="height:5px"></div>
-			<div class="d-flex container ml-2 align-items-center">
+		<section id="content" class="border-top">
+			<div style="height:10px"></div>
+			<div class="d-flex ml-2 align-items-center">
 				<div class="bg-primary text-white f-small px-3 rounded">안내</div>
 				<div class=" f-small ml-3 d-flex align-items-center font-weight-bold">기온예측은 ± 10%의 오차범위를 인정하여 계산됩니다.</div>
 			</div>
