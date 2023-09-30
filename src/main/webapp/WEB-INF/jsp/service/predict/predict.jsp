@@ -17,9 +17,9 @@
 	<div id="wrap">
 		<jsp:include page="/WEB-INF/jsp/global/header.jsp"/>
 		
-		<section id="content" class="container border-top">
-			<div style="height:5px"></div>
-			<div class="d-flex container ml-2 align-items-center">
+		<section id="content" class="border-top">
+			<div style="height:10px"></div>
+			<div class="d-flex ml-2 align-items-center">
 				<div class="bg-primary text-white f-small px-3 rounded">안내</div>
 				<div class=" f-small ml-3 d-flex align-items-center font-weight-bold">예측한 날씨는 2일 후, 나의 정확도에서 확인할 수 있어요!</div>
 			</div>
@@ -73,12 +73,15 @@
 							</div>
 						</div>
 					</div>
-					<div class="mx-2 mt-4 d-flex align-items-center f-small justify-content-center text-white bg-success rounded">
-						<div class="mr-1 font-weight-bold">Tip. 내일 <span>${p.regionName}</span> 지역, 기상청 예보</div>
-						<div class="mr-1">오전</div>
-						<div id="sfcAM-${p.predictOrder }" class="shortAM">${p.shortForecastAMString }</div>
-						<div class="mx-1">오후</div>
-						<div id="sfcPM-${p.predictOrder }" class="shortAM">${p.shortForecastPMString }</div>
+					<div class="mx-2 mt-4 f-small text-white bg-success rounded">
+						<div class="ml-1 font-weight-bold">Tip. 내일 <span>${p.regionName}</span> 지역, 기상청 예보</div>
+						<div class="d-flex justify-content-center align-items-center">
+							<div class="mr-1">오전</div>
+							<div id="sfcAM-${p.predictOrder }" class="shortAM">${p.shortForecastAMString }</div>
+							<div class="mx-2">▶</div>
+							<div class="mx-1">오후</div>
+							<div id="sfcPM-${p.predictOrder }" class="shortAM">${p.shortForecastPMString }</div>
+						</div>
 					</div>
 					<c:choose>
 					<c:when test="${empty p.highUserPredict1}">
@@ -129,12 +132,15 @@
 							</div>
 						</div>
 					</div>
-					<div class="mx-2 mt-4 d-flex align-items-center f-small justify-content-center text-white bg-success rounded">
-						<div class="mr-1 font-weight-bold">Tip. 내일 <span id="regionName" class="group-region-${p.predictOrder-1 }">${p.regionName}</span> 지역, 기상청 예보</div>
+					<div class="mx-2 mt-4 align-items-center f-small justify-content-center text-white bg-success rounded">
+						<div class="ml-1 font-weight-bold">Tip. 내일 <span id="regionName" class="group-region-${p.predictOrder-1 }">${p.regionName}</span> 지역, 기상청 예보</div>
+						<div class="d-flex align-items-center justify-content-center">
 						<div class="mr-1">오전 강수확률</div>
 						<div id="sfcAM-${p.predictOrder }" class="shortAM">${p.shortForecastAMString }</div>
+						<div class="mx-2">▶</div>
 						<div class="mx-1">오후 강수확률</div>
 						<div id="sfcPM-${p.predictOrder }" class="shortPM">${p.shortForecastPMString }</div>
+						</div>
 					</div>
 					<c:choose>
 					<c:when test="${empty p.highUserPredict1}">
