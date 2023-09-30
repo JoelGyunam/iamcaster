@@ -3,6 +3,7 @@ package com.iamcaster.common;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Dater {
 
@@ -37,7 +38,7 @@ public class Dater {
 	
 	public static String dateToString(ZonedDateTime date, int interval) {
 		
-		String toString = date.plusDays(interval).format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 E요일"));
+		String toString = date.plusDays(interval).format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 E요일", Locale.KOREAN));
 		return toString;
 	}
 	

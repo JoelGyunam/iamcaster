@@ -122,11 +122,11 @@ public class UserInfoRestController {
 	@PostMapping("/login/tempPW")
 	public Map<String,String> tempPW(@RequestParam("email") String email){
 		Map<String,String> resultMap = new HashMap<>();
-		int result = userInfoService.sendTempPW(email);
-		if(result==1) {
-			resultMap.put("result", "success");
-		} else {
+		Integer result = userInfoService.sendTempPW(email.trim());
+		if(result == null || result != 1) {
 			resultMap.put("result", "fail");
+		} else {
+			resultMap.put("result", "success");
 		}
 		return resultMap;
 	}
