@@ -62,6 +62,7 @@ public class KakaoOauthRestController {
 				}
 			} catch (HttpClientErrorException e) {
 				if (e.getStatusCode().isError()) {
+					model.addAttribute("kakaoResult", "error");
 					return userInfoController.loginView(model, session);
 				}
 			}
