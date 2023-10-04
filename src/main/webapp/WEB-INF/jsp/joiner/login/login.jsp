@@ -199,7 +199,10 @@
 			var kakaoEmail = "${kakaoResult.email}";
 			var nickname = "";
 			var NickID = "";
-			console.log(kakaoEmail);
+			var UID = "${UID}";
+			console.log("result"+kakaoResult);
+			console.log("email"+kakaoEmail);
+			console.log("UID"+UID);
 			console.log("NickID" + NickID);
 			console.log("RGID" + $("#regionSelect").val());
 			
