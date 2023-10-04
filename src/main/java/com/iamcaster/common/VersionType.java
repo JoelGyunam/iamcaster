@@ -4,9 +4,9 @@ public class VersionType {
 
 	public static String versionType() {
 		String dev = "http://localhost:8080";
-		String service = "http://iamcaster.com:8080";
+		String service = "http://iamcaster.com";
 		
-		String version = "dev";
+		String version = "service";
 		
 		if(version.equals("dev")) {
 			return dev;
