@@ -33,7 +33,7 @@
 			</div>
 			<div class="pt-3">
 				<div class="m-3 d-flex justify-content-center">
-					<button id="loginBtn" class="btn btn-success col-5 text-white">로그인</button>
+					<button id="loginBtn" class="btn btn-success text-white col-6">로그인</button>
 				</div>
 				<div id="forgortPWBtn" class="f-small text-center text-dark">비밀번호를
 					잊으셨나요?</div>
@@ -47,14 +47,14 @@
 		<div class="m-3">
 			<div class="f-content font-weight-bold">로그인 없이 나도캐스터를 알아볼까요?</div>
 			<div class="d-flex justify-content-center mt-4">
-				<button id="testLoginBtn" class="btn btn-primary col-5 text-white">로그인 없이 둘러보기</button>
+				<button id="testLoginBtn" class="btn btn-dark text-white">로그인 없이 둘러보기</button>
 			</div>
 		</div>
 		<hr>
 		<div class="m-3">
 			<div class="f-content font-weight-bold">나도캐스터가 처음이신가요?</div>
 			<div class="d-flex justify-content-center mt-4">
-				<button id="regBtn" class="btn btn-primary col-5">5초만에 나도캐스터 등록하기</button>
+				<button id="regBtn" class="btn btn-primary ">5초만에 나도캐스터 등록하기</button>
 			</div>
 		</div>
 
@@ -207,12 +207,6 @@
 			var nickname = "";
 			var NickID = "";
 			var UID = "${UID}";
-			console.log("result"+kakaoResult);
-			console.log("email"+kakaoEmail);
-			console.log("UID"+UID);
-			console.log("NickID" + NickID);
-			console.log("RGID" + $("#regionSelect").val());
-			
 			
 			if(kakaoResult == "success"){
 				location.href = "/main/predict";
@@ -296,8 +290,6 @@
 					alert("닉네임을 입력해 주세요.");
 					return;
 				}
-				
-				console.log(RGID + " / " + NickID + " / " + kakaoEmail);
 				
 				$.ajax({
 					url:"/rest/reg/submit"
@@ -393,17 +385,6 @@
 						}
 					})
 				});
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 
 				$("#regBtn").on("click", function() {
 					location.href = "/registration"
