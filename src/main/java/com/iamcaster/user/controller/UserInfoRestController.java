@@ -117,7 +117,20 @@ public class UserInfoRestController {
 			session.setAttribute("UID", userInfo.getUID());
 		}
 		return resultMap;
-	}
+	};
+	
+	@PostMapping("/login/tester")
+	public Map<String,String> testerLogin(HttpSession session){
+		Map<String,String> resultMap = new HashMap<>();
+		UserInfo userInfo = userInfoService.testerLogin();
+		if(userInfo!=null) {
+			session.setAttribute("UID", userInfo.getUID());
+			resultMap.put("result","success");
+		} else {
+			resultMap.put("result","fail");
+		}
+		return resultMap;
+	};
 	
 	@PostMapping("/login/tempPW")
 	public Map<String,String> tempPW(@RequestParam("email") String email){

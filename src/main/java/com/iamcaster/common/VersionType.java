@@ -6,7 +6,7 @@ public class VersionType {
 		String dev = "http://localhost:8080";
 		String service = "http://iamcaster.com";
 		
-		String version = "service";
+		String version = "dev";
 		
 		if(version.equals("dev")) {
 			return dev;

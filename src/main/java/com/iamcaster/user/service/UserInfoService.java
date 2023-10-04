@@ -134,6 +134,18 @@ public class UserInfoService {
 		return null;
 	}
 	
+	public UserInfo testerLogin() {
+		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail("iam@caster.com");
+		if(userList.size()==0) {
+			return null;
+		};
+		int UID = userList.get(0).getUID();
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUID(UID);
+		return userInfo;
+	}
+	
+	
 	public UserInfo login(String email, String password) {
 		
 		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail(email);
@@ -158,7 +170,7 @@ public class UserInfoService {
 		} else {
 			return null;
 		}
-	}
+	};
 	
 	public Integer sendTempPW(String email) {
 		List<UserInfo> userList = userInfoRepository.getUserInfoByEmail(email);
