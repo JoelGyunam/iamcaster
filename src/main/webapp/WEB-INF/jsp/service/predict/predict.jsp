@@ -41,11 +41,11 @@
 								<div class="f-content">내일 <span id="regionName-${p.predictOrder}">${p.regionName}</span>지역의 강수를 예측해 주세요!</div>
 							</c:when>
 							<c:when test="${p.predictOrder == 3 || p.predictOrder == 5}">
-								<div class="f-content font-weight-bold"><span class="material-icons text-dark">thermostat</span>나의 지역 기온 예측하기</div>
+								<div class="f-content font-weight-bold"><span class="material-icons text-dark">thermostat</span>다른 지역 기온 예측하기</div>
 								<div class="f-content">내일 <span id="regionName-${p.predictOrder}">${p.regionName}</span>지역의 기온을 예측해 주세요!</div>
 							</c:when>
 							<c:when test="${p.predictOrder == 4 || p.predictOrder == 6}">
-								<div class="f-content font-weight-bold"><span class="material-icons text-dark">water_drop</span>나의 지역 강수 예측하기</div>
+								<div class="f-content font-weight-bold"><span class="material-icons text-dark">water_drop</span>다른 지역 강수 예측하기</div>
 								<div class="f-content">내일 <span id="regionName-${p.predictOrder}">${p.regionName}</span>지역의 강수를 예측해 주세요!</div>
 							</c:when>
 						</c:choose>
