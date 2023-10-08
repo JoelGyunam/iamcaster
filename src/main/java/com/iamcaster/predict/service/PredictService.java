@@ -66,9 +66,9 @@ public class PredictService {
 			
 		// 위의 정/오답 정보를 확률로 변환
 			int regionTotal = tempCorrect + tempWrong + rainCorrect + rainWrong;
-			double regionTempChance =  ( (double)tempCorrect / (tempCorrect+tempWrong) ) * 100;
-			double regionRainChance =  ( (double)rainCorrect / (rainCorrect+rainWrong) ) * 100;
-			double regionTotalChance = (((double)(tempCorrect+rainCorrect)) / regionTotal) * 100;
+			double regionTempChance = (tempCorrect+tempWrong) != 0 ? ( (double)tempCorrect / (tempCorrect+tempWrong) ) * 100 : 0.0;
+			double regionRainChance = (rainCorrect+rainWrong) != 0 ? ( (double)rainCorrect / (rainCorrect+rainWrong) ) * 100 : 0.0;
+			double regionTotalChance = regionTotal != 0 ? (((double)(tempCorrect+rainCorrect)) / regionTotal) * 100 : 0.0;
 			eachRank.setRegionTotal(regionTotal);
 			eachRank.setRegionTempChance(regionTempChance);
 			eachRank.setRegionRainChance(regionRainChance);
