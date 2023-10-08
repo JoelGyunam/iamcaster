@@ -31,6 +31,11 @@ public class UserInfoRestController {
 		int UID = (int) session.getAttribute("UID");
 		String result = userInfoService.withdrawal(UID);
 		resultMap.put("result", result);
+		
+		if("bye".equals(result)) {
+			session.removeAttribute("UID");
+		};
+		
 		return resultMap;
 	}
 	
