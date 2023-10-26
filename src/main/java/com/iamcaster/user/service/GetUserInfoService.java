@@ -9,7 +9,7 @@ import com.iamcaster.predict.service.PredictService;
 import com.iamcaster.regional.userregion.service.UserRegionService;
 import com.iamcaster.user.domain.UserInfo;
 import com.iamcaster.user.dto.UserInfoOverral;
-import com.iamcaster.user.repository.UserInfoRepository;
+import com.iamcaster.user.repository.UserInfoJpaRepository;
 
 @Service
 public class GetUserInfoService {
@@ -17,14 +17,14 @@ public class GetUserInfoService {
 	@Autowired
 	private PredictService predictService;
 	@Autowired
-	private UserInfoRepository userInfoRepository;
-	@Autowired
 	private UserNicknameService userNicknameService;
 	@Autowired
 	private UserRegionService userRegionService;
+	@Autowired
+	private UserInfoJpaRepository UserInfoJpaRepository;
 	
 	public UserInfoOverral getUserInfo(int UID) {
-		UserInfo userInfo = userInfoRepository.getOneUserInfoByUID(UID);
+		UserInfo userInfo = UserInfoJpaRepository.findById(UID).orElse(null);
 		UserInfoOverral overral = new UserInfoOverral();
 		if(userInfo == null) {
 			return null;
