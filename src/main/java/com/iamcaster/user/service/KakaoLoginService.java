@@ -1,18 +1,17 @@
 package com.iamcaster.user.service;
 
-import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.iamcaster.common.Encrypt;
 import com.iamcaster.user.domain.UserInfo;
-import com.iamcaster.user.repository.UserInfoRepository;
+import com.iamcaster.user.repository.UserInfoJpaRepository;
 
 public class KakaoLoginService {
 
 	@Autowired
-	private UserInfoRepository userInfoRepository;
+	private UserInfoJpaRepository userInfoJpaRepository;
 	@Autowired
 	private UserInfoService userInfoService;
 
@@ -51,9 +50,9 @@ public class KakaoLoginService {
 			userInfo.setSalt(salt);
 			userInfo.setPassword(encPassword);
 			
-			int result = userInfoRepository.insertUserInfo(userInfo);
-			if(result == 1) {
-				return userInfo;
+			UserInfo result = userInfoJpaRepository.save(userInfo);
+			if(result != null) {
+				return result;
 			} else
 				return null;
 			

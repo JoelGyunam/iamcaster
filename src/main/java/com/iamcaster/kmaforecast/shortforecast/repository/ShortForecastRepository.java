@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.iamcaster.kmaforecast.shortforecast.domain.ShortForecast;
 
 @Repository
-public interface ShortForecastRepository {
+public interface ShortForecastRepository{
 
 	public int upsertShortForecastList(List<ShortForecast> shortForecastList);
-	public List<ShortForecast> selectTodayShortForecast(String REG_ID);
+//	public List<ShortForecast> selectTodayShortForecast(String REG_ID); jpa로 변경
 }

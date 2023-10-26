@@ -12,6 +12,7 @@ import com.iamcaster.emailSender.service.EmailSendService;
 import com.iamcaster.regional.userregion.service.UserRegionService;
 import com.iamcaster.user.domain.UserInfo;
 import com.iamcaster.user.dto.UserInfoOverral;
+import com.iamcaster.user.repository.UserInfoJpaRepository;
 import com.iamcaster.user.repository.UserInfoRepository;
 
 @Service
@@ -19,6 +20,8 @@ public class UserInfoService {
 
 	@Autowired
 	private UserInfoRepository userInfoRepository;
+	@Autowired
+	private UserInfoJpaRepository userInfoJpaRepository;
 	@Autowired
 	private EmailSendService emailSendService;
 	@Autowired
@@ -40,10 +43,15 @@ public class UserInfoService {
 	
 
 	public String withdrawal(int UID) {
-		UserInfo userInfo = new UserInfo();
+		UserInfo userInfo = userInfoJpaRepository.findById(UID).orElse(null);
 		userInfo.setUID(UID);
 		userInfo.setEmail(UID+"@not.user");
-		int userInfoResult = userInfoRepository.withdrawalUpdate(userInfo);
+		UserInfo emailReset = userInfoJpaRepository.save(userInfo);
+		int userInfoResult = 0;
+		if(emailReset != null) {
+			userInfoResult = 1;
+		}
+		
 		Random random = new Random();
 		String randomPW = Integer.toString(random.nextInt());
 		int pwResult = changePW(UID,"asdfasdf");
@@ -58,14 +66,14 @@ public class UserInfoService {
 		} else {
 			return "fail";
 		}
-		
 	}
 	
 	public int updateRGID(int UID, int RGID) {
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUID(UID);
+		UserInfo userInfo = userInfoJpaRepository.findById(UID).orElse(null);;
 		userInfo.setRGID(RGID);
-		return userInfoRepository.updateRGID(userInfo);
+		userInfoJpaRepository.save(userInfo);
+		
+		return 1;
 	}
 	
 	public int updateNickID(int UID, int NickID) {

@@ -8,12 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.iamcaster.common.WebClientForKMA;
 import com.iamcaster.kmaforecast.shortforecast.domain.ShortForecast;
+import com.iamcaster.kmaforecast.shortforecast.repository.ShortForcastJpaRepository;
 import com.iamcaster.kmaforecast.shortforecast.repository.ShortForecastRepository;
 import com.iamcaster.regional.userregion.service.UserRegionService;
 
 @Service
 public class ShortForecastService {
 
+	@Autowired
+	private ShortForcastJpaRepository shortForecastJpaRepository;
 	@Autowired
 	private WebClientForKMA webClientForKMA;
 	@Autowired
@@ -43,14 +46,14 @@ public class ShortForecastService {
 		//지역ID 기준으로, 오늘의 단기예보 정보 리스트를 db에서 셀렉트
 		//리스트가 비어있거나, updatedAt의 시간이 현재 시간보다 이전이면 리스트 갱신 및 갱신된 리스트 리턴
 		//리스트가 비어있지 않고, updatedAt 이 현재 조회시간에 이루어진 이력이 있으면 기존 리스트 리턴
-		List<ShortForecast> forecastList = shortForecastRepository.selectTodayShortForecast(REG_ID);
+		List<ShortForecast> forecastList = shortForecastJpaRepository.findTodayShortForecastsbyRegId(REG_ID);
 		if(
 				forecastList == null 
 				|| forecastList.size()<1
 				|| forecastList.get(0).getUpdatedAt().getHour()<currentHour
 				) {
 			upsertTodayShortForecast(RGID);
-			return shortForecastRepository.selectTodayShortForecast(REG_ID);
+			return shortForecastJpaRepository.findTodayShortForecastsbyRegId(REG_ID);
 		} else {
 			return forecastList;
 		}
