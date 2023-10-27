@@ -17,10 +17,10 @@ spring:
     static-path-pattern: /static/**
       
   datasource:
-    url: jdbc:mysql://localhost:3306/iamcaster
+    url: jdbc:mysql://iamcasterrds.caqxtjyl20r1.ap-northeast-2.rds.amazonaws.com:3306/iamcaster
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: gkftndlTek1@
+    username: admin
+    password: gkftndlTek1!
     
   mail:
     host: smtp.naver.com
