@@ -43,14 +43,14 @@ public class ShortForecast {
 	private int PREP;		//강수유무코드 (1(비),2(비/눈),4(눈/비),3(눈))
 	private String WF;		//예보
 	
-	@Column(name="createdAt")
+	@Column(name="createdAt",updatable = false)
 	@UpdateTimestamp
 	private ZonedDateTime createdAt;
 	
 	@Column(name="createdDate")
 	private Date createdDate;
 	
-	@Column(name="updatedAt", updatable = false)
+	@Column(name="updatedAt")
 	@UpdateTimestamp
 	private ZonedDateTime updatedAt;
 	
