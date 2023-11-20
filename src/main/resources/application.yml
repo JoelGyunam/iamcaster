@@ -41,7 +41,7 @@ spring:
   thymeleaf:
     prefix: classpath:/static/thymeleaf-templates/
     suffix: .html
-    mode: HTML5
+    mode: HTML
     cache: false
     view-names: thymeleaf/*
     
