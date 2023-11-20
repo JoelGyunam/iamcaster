@@ -94,7 +94,7 @@
 					<div class="my-2 ml-3">
 						<a href="/main/notice" class="text-dark">공지 사항</a>
 					</div>
-<!--					<div class="my-2 ml-3">오류 제보 및 문의</div> -->
+<!--					<div class="my-2 ml-3">오류 제보 및 문의</div> git action 테스트--> 
 				</div>
 			</div>
 			<div class="card my-2 ">
