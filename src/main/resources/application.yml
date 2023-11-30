@@ -17,6 +17,9 @@ spring:
       resolvers:
         order: jsp,thymeleaf
     static-path-pattern: /static/**
+    
+    pathmatch:
+      matching-strategy: ant-path-matcher
       
   datasource:
     url: jdbc:mysql://iamcasterrds.caqxtjyl20r1.ap-northeast-2.rds.amazonaws.com:3306/iamcaster

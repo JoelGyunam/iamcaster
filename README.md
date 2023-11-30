@@ -13,7 +13,6 @@
 >**날씨를 맞추는 재미**와, 지역·사용자 별 순위에서 **높은 순위를 얻고자 하는 동기부여**를 통해, 강수량, 기온 등, 날씨 수치에 대한 감각을 함양시키고, 기상청의 날씨예보에 관심을 증가시키고자 합니다.
 >
 
-
 ### ② 핵심 기능
 
 > **내일 날씨 (기온 및 강수) 를 맞추는 기능.**
@@ -24,20 +23,29 @@
 > **채점 된 결과를 기반으로 통계 및 순위정보 제공.**
 
 ### ③ 사용한 기술
-| 서버사이드          | view           | 라이브러리             |
-|:-------------------:|:--------------:|:----------------------:|
-| java 17             | JSP            | 기상청API              |
-| Spring Framework    | javascript     | 카카오로그인           |
-| mySQL, mybatis      | jQuery         | 네이버지도              |
-| gradle              | html/css       | jackson 라이브러리     |
-| Tomcat              |                | webflux                |
-| AWS EC2, Route53    |                | springboot-mail        |
-|                     |                | chart-js               |
+| 서버사이드          | view           | 라이브러리             | 형상관리   |
+|:-------------------:|:--------------:|:----------------------:|:--------:|
+| java 17             | JSP            | 기상청API              | Git            |
+| Spring Framework    | javascript     | 카카오로그인           | GitHub Actions  |
+| mySQL                | jQuery         | 네이버지도              | Docker        |
+| JPA, MyBatis        | html/css       | jackson 라이브러리     |                |
+| gradle              |                | webflux                |               |
+| Tomcat               |                | springboot-mail        |                |
+| AWS EC2, RDS, Route53|                | chart-js               |                |
 
+ - 아키텍쳐
+
+![image](https://github.com/JoelGyunam/iamcaster/assets/49266474/5c7a99d3-54da-4258-864d-7bf042cdcfb9)
 
 ### ⑤ 데이터베이스 설계 및 구조
 
 > **10개 테이블 구성**
+
+ - ERD다이어그램
+
+![image](https://github.com/JoelGyunam/iamcaster/assets/49266474/4824e54c-b195-4a6c-ae0a-2d003e150a33)
+
+ - 테이블 명세
 
 | 테이블 명 | 내용 |
 | --- | --- |
