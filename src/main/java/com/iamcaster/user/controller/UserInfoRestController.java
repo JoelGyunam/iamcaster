@@ -13,9 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iamcaster.user.domain.UserInfo;
+import com.iamcaster.user.dto.BooleanResponse;
+import com.iamcaster.user.dto.ResultResponse;
 import com.iamcaster.user.service.UserInfoService;
 import com.iamcaster.user.service.UserNicknameService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
+
+@Api(tags = {"회원정보 등록, 수정, 삭제"})
 @RequestMapping("/rest")
 @RestController
 public class UserInfoRestController {
@@ -25,8 +33,9 @@ public class UserInfoRestController {
 	@Autowired
 	private UserNicknameService userNicknameService;
 	
+	@ApiOperation(value="회원탈퇴")
 	@PostMapping("/withdrawal")
-	public Map<String,String> withdrawal(HttpSession session){
+	public Map<String,String> withdrawal(@ApiIgnore HttpSession session){
 		Map<String,String> resultMap = new HashMap<>();
 		int UID = (int) session.getAttribute("UID");
 		String result = userInfoService.withdrawal(UID);
@@ -39,129 +48,138 @@ public class UserInfoRestController {
 		return resultMap;
 	}
 	
+	@ApiOperation(value="로그아웃")
 	@PostMapping("/logout")
-	public Map<String,String> logout(HttpSession session){
-		Map<String,String> resultMap = new HashMap<>();
+	public ResultResponse logout(@ApiIgnore HttpSession session){
+		ResultResponse result = new ResultResponse();
 		session.removeAttribute("UID");
-		resultMap.put("result", "success");
-		return resultMap;
+		result.setResult("success");
+		return result;
 	}
 	
+	@ApiOperation(value="활동지역 변경")
 	@GetMapping("/userinfo/edit/rgid")
-	public Map<String,String> updateRGID(HttpSession session, @RequestParam("RGID") int RGID){
-		Map<String,String> resultMap = new HashMap<>();
+	public ResultResponse updateRGID(@ApiIgnore HttpSession session, 
+			@ApiParam("RGID") @RequestParam("RGID") int RGID){
+		ResultResponse result = new ResultResponse();
 		int UID = (int) session.getAttribute("UID");
-		int result = userInfoService.updateRGID(UID, RGID);
-		if(result == 1) {
-			resultMap.put("result", "success");
+		int updateResult = userInfoService.updateRGID(UID, RGID);
+		if(updateResult == 1) {
+			result.setResult("success");
 		} else {
-			resultMap.put("result", "fail");
+			result.setResult("fail");
 		}
-		return resultMap;
+		return result;
 	}
 	
+	@ApiOperation(value="선택약관 동의여부")
 	@GetMapping("/terms/optionalAgreed")
-	public Map<String,String> optionaltermsUpdate(@RequestParam("UID") int UID, @RequestParam("ifAgreed") boolean ifAgreed){
-		Map<String,String> resultMap = new HashMap<>();
-		int result = userInfoService.optionalTermsSubmit(UID, ifAgreed);
-		if(result == 1) {
-			resultMap.put("result", "success");
+	public ResultResponse optionaltermsUpdate(@RequestParam("UID") int UID, 
+			@ApiParam("ifAgreed") @RequestParam("ifAgreed") boolean ifAgreed){
+		ResultResponse result = new ResultResponse();
+		int isAgreed = userInfoService.optionalTermsSubmit(UID, ifAgreed);
+		if(isAgreed == 1) {
+			result.setResult("success");
 		} else {
-			resultMap.put("result", "fail");
+			result.setResult("fail");
 		};
-		return resultMap;
+		return result;
 	};
 	
 	
+	@ApiOperation(value="이메일 중복 확인")
 	@GetMapping("/reg/emailverify/ifDuplicated")
-	public Map<String,Boolean> ifDuplicated(@RequestParam("email") String email){
+	public BooleanResponse ifDuplicated(@ApiParam("email") @RequestParam("email") String email){
 		Boolean result = userInfoService.ifRegisteredEmail(email);
+		BooleanResponse booleanResponse = new BooleanResponse();
 		Map<String,Boolean> resultMap = new HashMap<>();
 		resultMap.put("ifDuplicated", result);
-		return resultMap;
+		booleanResponse.setIfDuplicated(result);
+		booleanResponse.setResult(result);
+		return booleanResponse;
 	}
 	
-	
+	@ApiOperation(value="회원가입 시도")
 	@PostMapping("/reg/submit")
-	public Map<String,String> registration(
+	public ResultResponse registration(
 			@RequestParam("email") String email
 			,@RequestParam("password") String password
 			,@RequestParam("NickID") int NickID
 			,@RequestParam("RGID") int RGID
 			,@RequestParam("optionalTerms") boolean ifOptionalTermsAgreed
 			,@RequestParam(value="ifKakao", required=false) boolean ifkakao
-			,HttpSession session
+			,@ApiIgnore HttpSession session
 			){
-		Map<String,String> resultMap = new HashMap<>();
+		ResultResponse result = new ResultResponse();
 		UserInfo userInfo = new UserInfo();
 		userInfo = userInfoService.registration(email, password, NickID, RGID, ifOptionalTermsAgreed, ifkakao);
 		if(userInfo != null) {
-			resultMap.put("result", "success");
+			result.setResult("success");
 			int UID = userInfo.getUID();
 			userNicknameService.setUIDforNickname(UID, NickID);
 			session.setAttribute("UID", UID);
 		} else {
-			resultMap.put("result", "fail");
+			result.setResult("fail");
 		}
-		return resultMap;
+		return result;
 	}
 
+	@ApiOperation(value = "로그인 시도")
 	@PostMapping("/login/submit")
-	public Map<String,String> login(
-			HttpSession session
-			,@RequestParam("email") String email
-			,@RequestParam("password") String password
+	public ResultResponse login(
+			@ApiIgnore HttpSession session
+			,@ApiParam(value="email") @RequestParam("email") String email
+			,@ApiParam(value="password") @RequestParam("password") String password
 			){
-		Map<String,String> resultMap = new HashMap<>();
 		UserInfo userInfo = new UserInfo();
 		userInfo = userInfoService.login(email, password);
+		ResultResponse result = new ResultResponse();
 		if(userInfo==null) {
-			resultMap.put("result","fail");
+			result.setResult("fail");
 		} else {
-			resultMap.put("result","success");
+			result.setResult("success");
 			session.setAttribute("UID", userInfo.getUID());
 		}
-		return resultMap;
+		return result;
 	};
 	
+	@ApiOperation(value = "둘러보기 계정")
 	@PostMapping("/login/tester")
-	public Map<String,String> testerLogin(HttpSession session){
-		Map<String,String> resultMap = new HashMap<>();
+	public ResultResponse testerLogin(@ApiIgnore HttpSession session){
 		UserInfo userInfo = userInfoService.testerLogin();
+		ResultResponse result = new ResultResponse();
 		if(userInfo!=null) {
 			session.setAttribute("UID", userInfo.getUID());
-			resultMap.put("result","success");
+			result.setResult("success");
 		} else {
-			resultMap.put("result","fail");
+			result.setResult("fail");
 		}
-		return resultMap;
+		return result;
 	};
 	
+	@ApiOperation("임시비밀번호 발급")
 	@PostMapping("/login/tempPW")
-	public Map<String,String> tempPW(@RequestParam("email") String email){
-		Map<String,String> resultMap = new HashMap<>();
-		Integer result = userInfoService.sendTempPW(email.trim());
-		if(result == null || result != 1) {
-			resultMap.put("result", "fail");
+	public ResultResponse tempPW(@RequestParam("email") String email){
+		ResultResponse result = new ResultResponse();
+		Integer mailSendResult = userInfoService.sendTempPW(email.trim());
+		if(mailSendResult == null || mailSendResult != 1) {
+			result.setResult("fail");
 		} else {
-			resultMap.put("result", "success");
+			result.setResult("success");
 		}
-		return resultMap;
+		return result;
 	}
 
 	@PostMapping("/info/changePW")
-	public Map<String,String> changePW(HttpSession session, @RequestParam("newPassword")String newPassword){
-		Map<String,String> resultMap = new HashMap<>();
+	public ResultResponse changePW(@ApiIgnore HttpSession session, @RequestParam("newPassword")String newPassword){
+		ResultResponse result = new ResultResponse();
 		int UID = (int) session.getAttribute("UID");
-		
-		int result = userInfoService.changePW(UID,newPassword);
-		if(result==1) {
-			resultMap.put("result", "success");
+		int changeResult = userInfoService.changePW(UID,newPassword);
+		if(changeResult==1) {
+			result.setResult("success");
 		} else {
-			resultMap.put("result", "fail");
+			result.setResult("fail");
 		}
-		return resultMap;
-		
+		return result;
 	}
-
 }
